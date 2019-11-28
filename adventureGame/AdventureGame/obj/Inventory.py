@@ -3,6 +3,8 @@
 """
 
 from obj import Item as ItemClass
+from obj import Weapon as WeaponClass
+from obj import ArmourSet as ArmourSetClass
 
 debug = False
 
@@ -34,7 +36,9 @@ class Inventory:
         # Initilise list to contain items in inventory.        
         if len(_items) > 0 and len(_items) <= 10:
             for itemContents in _items:
-                if isinstance(itemContents, ItemClass.item):
+                if isinstance(itemContents, ItemClass.item) \
+                or isinstance(itemContents, WeaponClass.Weapon) \
+                or isinstance(itemContents, ArmourSetClass.ArmourSet):
                     self.items = _items
                 else:
                     raise Exception("Inventory item expected an obj Item. Received: " + str(type(itemContents)) + " Check the type")
