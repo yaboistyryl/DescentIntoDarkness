@@ -21,8 +21,6 @@ def main():
     
     print("\nStarting Game...")
     
-    
-    
         
 def titleScreen():
     print("|==============================|")
