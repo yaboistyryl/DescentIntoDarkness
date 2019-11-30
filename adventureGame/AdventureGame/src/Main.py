@@ -39,7 +39,7 @@ def introduction():
     time.sleep(4)
     print("Sir Gregos IV: \"That should hold them off long enough\"\n")
     time.sleep(3)
-    print("Sir Gregos IV: \"The names Sir Gregos IV, long serving commander of the king\'s forces\"\n")
+    print("Sir Gregos IV: \"The name\'s Sir Gregos IV, long serving commander of the king\'s forces\"\n")
     time.sleep(3)
     print("Sir Gregos nods to the first of you two to walk through the door.\n")
     time.sleep(3)
