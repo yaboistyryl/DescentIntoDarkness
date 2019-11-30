@@ -9,7 +9,7 @@ from obj import Inventory as InventoryClass
 from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
 
-debug = True
+debug = False
 
 # Summary:
 # Class for playable character.
@@ -28,6 +28,7 @@ class Character:
     # obj InventoryClass _inventory - The inventory of the playable character.
     # obj WeaponClass _equippedWeapon - The equipped weapon of the playable character.
     # obj ArmourSetClass _armourSet - The armour set the playable character has equipped.
+    # int _gold - The amount of gold the character has.
     def __init__(self, _name, _level, _healthPoints, _manaPoints, _experience, _defence, _inventory, _equippedWeapon, _armourSet, _gold):
 
         # Setup attributes
