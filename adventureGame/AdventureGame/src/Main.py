@@ -31,7 +31,7 @@ def titleScreen():
 def introduction():
     print("Sir Gregos IV: \"Quickly, in here! They're too many of them!\"\n")
     time.sleep(3)
-    print("You and your friend hurry inside the ominous room where sir Gregos IV awaits, closing the door behind you.\n")
+    print("You and your friend hurry inside the ominous room where sir Gregos IV awaits, and closes the door behind you.\n")
     time.sleep(4)
     print("Sir Gregos IV: \"That's not going to hold them long, this should help\"\n")
     time.sleep(3)
