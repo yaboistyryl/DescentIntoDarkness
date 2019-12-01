@@ -17,7 +17,6 @@ enemyList = [mockedEnemy, mockedEnemy, mockedEnemy]
 testHasChest = True
 
 def test_DungeonRoom_Constructs_With_Valid_Data():
-    
     # 3As | Arrange
     # Nothing, use stock test variables/test setup.
     
@@ -106,3 +105,16 @@ def test_DungeonRoom_fails_to_construct_with_invalid_hasChest_type():
     # Assert that the correct exception was raised
     assert exc_info.errisinstance(TypeError)
     assert "DungeonRoom hasChest expected a bool. Received: " + str(expectedOutput) + " Check the type" in str(exc_info.value)
+    
+def test_DungeonRoom_Attribute_is_callable_when_empty_enemyList_is_passed():
+    # 3As | Arrange     
+    # Overwrite enemyList to be empty
+    enemyList = []
+    
+    unitUnderTest = DungeonRoomClass.dungeonRoom(testName, testHasEnemies, enemyList, testHasChest)
+    
+    try:
+        print(str(unitUnderTest.enemyList))
+        assert True
+    except:
+        assert False

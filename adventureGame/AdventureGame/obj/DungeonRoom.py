@@ -5,7 +5,7 @@
 
 from obj import Enemy as EnemyClass
 
-debug = False
+debug = True
 
 class dungeonRoom:
     # Summary:
@@ -21,7 +21,7 @@ class dungeonRoom:
     # int _enemyNumber - The amount of enemies in the dungeon room.
     # bool _hasChest - Whether the room has a chest or not.
     def __init__(self, _name, _hasEnemies, _enemyList, _hasChest):
-
+        
         self.setName(_name)
         self.setHasEnemies(_hasEnemies)
         self.setEnemyList(_enemyList)
@@ -30,9 +30,9 @@ class dungeonRoom:
         if debug == True:
             print("\nConstructing dungeonRoom...\n")
             print("Name: " + self.name)
-            print("Has Enemies: " + self.hasEnemies)
-            print("Enemy Number: " + str(self.enemyNumber))
-            print("Has Chest: " + self.hasChest)
+            print("Has Enemies: " + str(self.hasEnemies))
+            print("Enemy Number: " + str(self.enemyList))
+            print("Has Chest: " + str(self.hasChest))
             
     # Summary:
     # Set the name of the dungeon room.
@@ -55,6 +55,8 @@ class dungeonRoom:
             for enemyListContent in _enemyList:
                 if isinstance(enemyListContent, EnemyClass.Enemy):
                     self.enemyList = _enemyList
+                else:
+                    raise TypeError("DungeonRoom enemyList expected obj type Enemy in enemyList. Received: " + str(type(enemyListContent)) + " Check the type")
         else:
             raise TypeError("DungeonRoom enemyList expected a list. Received: " + str(type(_enemyList)) + " Check the type")
     
