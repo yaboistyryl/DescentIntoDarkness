@@ -94,125 +94,8 @@ def constructPlayers(_playerOneName, _playerTwoName):
     
     player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-def constructRandomDungeonRoom():
-    
-    enemyList = ["yeet"]
-    hasEnemies = False
-    hasChest = False
         
-    # Generate chest chance
-    # hasChest = generateRandomChestChance()
-    # mock.Mock(spec=EnemyClass.Enemy)
-    # List of potential room names
-    # dungeonNames = ["Common Loot Room", "Uncommon Loot Room", "Rare loot Room", "Ultra Rare Loot Room", "Legendary Loot Room"]
-    
-    dungeonRoom = DungeonRoomClass.dungeonRoom("test", hasEnemies, enemyList, hasChest)
 
-    print("Name: " + dungeonRoom.name)
-    print("hasEnemies: " + str(dungeonRoom.hasEnemies))
-    print("enemyList: " + str(dungeonRoom.enemyList))
-    print("hasChest: " + str(dungeonRoom.hasChest))
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    """ 
     # Generate rarity
     # Rarity List:
     #   Common - 35% chance
@@ -276,18 +159,39 @@ def generateRandomChestChance():
     elif randNumb <= 100:
         return False
     
-def generateRandomEnemy():
-    return mock.Mock(spec=EnemyClass.Enemy)
-    
-def generateRandomEnemyList(_enemyList, enemyCount):
+def generateRandomEnemyList(enemyCount):
     
     if enemyCount == 1:
-        _enemyList = [generateRandomEnemy()]
+        return _enemyList = [generateRandomEnemy()]
     elif enemyCount == 2:
-        _enemyList = [generateRandomEnemy(), generateRandomEnemy()]
+        return _enemyList = [generateRandomEnemy(), generateRandomEnemy()]
     elif enemyCount == 3:
-        _enemyList = [generateRandomEnemy(), generateRandomEnemy(), generateRandomEnemy()]
+        return _enemyList = [generateRandomEnemy(), generateRandomEnemy(), generateRandomEnemy()]
     
     return _enemyList
-"""
+
+def generateRandomEnemy():
+    """
+    enemyCount = generateRandomEnemyCount()
+    enemyList = generateRandomEnemyList(enemyCount)
+    """
+    return mock.Mock(spec=EnemyClass.Enemy)
+
+def constructRandomDungeonRoom():
+    
+    enemyList = []
+    hasEnemies = False
+    hasChest = False
+    
+    # Generate rarity of the room to set the name
+    roomRarity = generateRandomRoomRarity()
+    
+    # List of potential room names
+    dungeonNames = ["Common Loot Room", "Uncommon Loot Room", "Rare loot Room", "Ultra Rare Loot Room", "Legendary Loot Room"]
+    
+    # Generate chest chance
+    hasChest = generateRandomChestChance()
+    
+    dungeonRoom1 = DungeonRoomClass.dungeonRoom(dungeonNames[roomRarity], hasEnemies, enemyList, hasChest)
+    
 constructRandomDungeonRoom()

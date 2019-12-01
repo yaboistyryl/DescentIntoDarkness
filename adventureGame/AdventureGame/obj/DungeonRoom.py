@@ -13,10 +13,6 @@ class dungeonRoom:
     
     # Parameters:
     # str _name - the name of the dungeon room.
-    # str _roomType - the type of dungeon room.
-    # str _entryPoint - The entryPoint of the dungeon room.
-    # str _flavourTest - The description of the dungeon room.
-    # bool _hasVisited - Whether the player has visited or not.
     # bool _hasEnemies - Whether the room has enemies or not.
     # int _enemyNumber - The amount of enemies in the dungeon room.
     # bool _hasChest - Whether the room has a chest or not.
@@ -52,11 +48,16 @@ class dungeonRoom:
     
     def setEnemyList(self, _enemyList):
         if type(_enemyList) is list:
-            for enemyListContent in _enemyList:
-                if isinstance(enemyListContent, EnemyClass.Enemy):
-                    self.enemyList = _enemyList
-                else:
-                    raise TypeError("DungeonRoom enemyList expected obj type Enemy in enemyList. Received: " + str(type(enemyListContent)) + " Check the type")
+            if len(_enemyList) == 0:
+                if debug == True:
+                    print("WWARNING: instance of dungeonRoom has an empty enemyList")
+                self.enemyList = _enemyList
+            else:
+                for enemyListContent in _enemyList:
+                    if isinstance(enemyListContent, EnemyClass.Enemy):
+                        self.enemyList = _enemyList
+                    else:
+                        raise TypeError("DungeonRoom enemyList expected obj type Enemy in enemyList. Received: " + str(type(enemyListContent)) + " Check the type")
         else:
             raise TypeError("DungeonRoom enemyList expected a list. Received: " + str(type(_enemyList)) + " Check the type")
     
