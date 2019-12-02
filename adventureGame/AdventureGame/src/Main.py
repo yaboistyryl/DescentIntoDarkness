@@ -43,17 +43,40 @@ def introduction():
     time.sleep(3)
     print("Sir Gregos nods to the first of you two to walk through the door.\n")
     time.sleep(3)
-    print("Sir Gregos IV: \"What is your name friend?\"\n")
+    print("Sir Gregos IV: \"What is your name friend?\"")
     time.sleep(4)
     
-    playerOneName = input("Player 1: \"My name is: ")
+    # From maintenance perspective, create function for this later before release.
+    
+    playerOneInputSuccess = False
+    while playerOneInputSuccess == False:
+        playerOneName = input("Player 1: \"My name is: ")
+        time.sleep(2)
+        if len(playerOneName) <= 20 and len(playerOneName) > 0:
+            playerOneInputSuccess = True
+        elif len(playerOneName) <= 0:
+            print("\nSir Gregos IV: \"Speak up boy, we've no time for this\"")
+        else:
+            print("\nSir Gregos IV: \"Hmm, that's a long name. Do you have a nickname? Perhaps one with less than 20 letters?\"")
+    
     
     print("\nSir Gregos IV: \"Ahh, " + playerOneName + " it is. how about you friend?\"\n")
     time.sleep(3)
     print("Sir Gregos nods towards the second person to walk through the door")
     time.sleep(4)
     
-    playerTwoName = input("Player 2: \"My name is: ")
+    # Same as previous comment.
+    
+    playerTwoInputSuccess = False
+    while playerTwoInputSuccess == False:
+        playerTwoName = input("Player 2: \"My name is: ")
+        time.sleep(2)
+        if len(playerTwoName) <= 20 and len(playerTwoName) > 0:
+            playerTwoInputSuccess = True
+        elif len(playerTwoName) <= 0:
+            print("\nSir Gregos IV: \"Speak up boy, we've no time for this\"")
+        else:
+            print("\nSir Gregos IV: \"Hmm, that's a long name. Do you have a nickname? Perhaps one with less than 20 letters?\"")
     
     print("\nSir Gregos IV: \"Great to meet you too, " + playerTwoName + ", sorry it's under such awful circumstances...\"\n")
     time.sleep(3)
