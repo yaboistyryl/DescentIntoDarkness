@@ -50,7 +50,7 @@ class dungeonRoom:
         if type(_enemyList) is list:
             if len(_enemyList) == 0:
                 if debug == True:
-                    print("WWARNING: instance of dungeonRoom has an empty enemyList")
+                    print("WARNING: instance of dungeonRoom has an empty enemyList")
                 self.enemyList = _enemyList
             else:
                 for enemyListContent in _enemyList:
