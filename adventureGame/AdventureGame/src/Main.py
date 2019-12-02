@@ -25,12 +25,9 @@ def main():
     # If the user types "skip", it allows them to skip the introduction story.
     if userInput != "skip":
         introduction()
-    else:
-        # Input player names.
-        # Needs data validation.
-        playerOneName = input("Player 1: \"My name is: ")
-        playerTwoName = input("Player 2: \"My name is: ")
-        # Create the players from names.
+    else:    
+        playerOneName = inputPlayerName(1)
+        playerTwoName = inputPlayerName(2)
         constructPlayers(playerOneName, playerTwoName)
     
     print("\nStarting Game...")
@@ -60,17 +57,18 @@ def introduction():
     time.sleep(3)
     print("Sir Gregos nods to the first of you two to walk through the door.\n")
     time.sleep(3)
-    print("Sir Gregos IV: \"What is your name friend?\"\n")
+    print("Sir Gregos IV: \"What is your name friend?\"")
     time.sleep(4)
     
-    playerOneName = input("Player 1: \"My name is: ")
+    # Function created for validation and reusability
+    playerOneName = inputPlayerName(1)
     
     print("\nSir Gregos IV: \"Ahh, " + playerOneName + " it is. how about you friend?\"\n")
     time.sleep(3)
     print("Sir Gregos nods towards the second person to walk through the door")
     time.sleep(4)
     
-    playerTwoName = input("Player 2: \"My name is: ")
+    playerTwoName = inputPlayerName(2)
     
     print("\nSir Gregos IV: \"Great to meet you too, " + playerTwoName + ", sorry it's under such awful circumstances...\"\n")
     time.sleep(3)
@@ -89,6 +87,19 @@ def introduction():
     print("The door is sealed behind you as you take your first glimpse of the room...\n")
     
     constructPlayers(playerOneName, playerTwoName)
+    
+def inputPlayerName(_playerNumber):
+    _playerInputSuccess = False
+    while _playerInputSuccess == False:
+        _playerName = input("Player " + str(_playerNumber) + ": \"My name is: ")
+        time.sleep(2)
+        if len(_playerName) <= 20 and len(_playerName) > 0:
+            return _playerName
+            _playerInputSuccess = True
+        elif len(_playerName) <= 0:
+            print("\nSir Gregos IV: \"Speak up boy, we've no time for this\"")
+        else:
+            print("\nSir Gregos IV: \"Hmm, that's a long name. Do you have a nickname? Perhaps one with less than 20 letters?\"")
     
 def constructPlayers(_playerOneName, _playerTwoName):
     
