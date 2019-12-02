@@ -7,11 +7,22 @@ from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
 from obj import DungeonRoom as DungeonRoomClass
 
+# Make players global
+player1 = None
+player2 = None
+
 def main():
+    # Show the title screen
     titleScreen()
+    
+    # Wait for user to input a key.
     userInput = input()
+    
+    # Clear the terminal screen.
     for i in range(50):
         print("\n")
+    
+    # If the user types "skip", it allows them to skip the introduction story.
     if userInput != "skip":
         introduction()
     else:    
@@ -20,6 +31,9 @@ def main():
         constructPlayers(playerOneName, playerTwoName)
     
     print("\nStarting Game...")
+    
+    # Create random dungeonRoom.
+    constructDungeonRoom()
     
         
 def titleScreen():
@@ -102,4 +116,13 @@ def constructPlayers(_playerOneName, _playerTwoName):
     player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     
+def constructDungeonRoom():
+    # Initialise the dungeonRoom with basic values.
+    dungeonRoom1 = DungeonRoomClass.dungeonRoom("test", False, [], False)
+    for i in range(100):
+        # Regen the dungeonRoom to have random values.
+        dungeonRoom1.regenRandomDungeonRoom()
+        # Print for debug.
+        dungeonRoom1.printDungeonRoomInfo()
+
 main()
