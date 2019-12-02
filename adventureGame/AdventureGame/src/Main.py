@@ -94,7 +94,6 @@ def constructPlayers(_playerOneName, _playerTwoName):
     
     player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
-        
 
     # Generate rarity
     # Rarity List:
@@ -160,27 +159,33 @@ def generateRandomChestChance():
         return False
     
 def generateRandomEnemyList(enemyCount):
+    _enemyList = []
     
     if enemyCount == 1:
-        return _enemyList = [generateRandomEnemy()]
+        _enemyList = [generateRandomEnemy()]
     elif enemyCount == 2:
-        return _enemyList = [generateRandomEnemy(), generateRandomEnemy()]
+        _enemyList = [generateRandomEnemy(), generateRandomEnemy()]
     elif enemyCount == 3:
-        return _enemyList = [generateRandomEnemy(), generateRandomEnemy(), generateRandomEnemy()]
+        _enemyList = [generateRandomEnemy(), generateRandomEnemy(), generateRandomEnemy()]
     
     return _enemyList
 
 def generateRandomEnemy():
-    """
-    enemyCount = generateRandomEnemyCount()
-    enemyList = generateRandomEnemyList(enemyCount)
-    """
-    return mock.Mock(spec=EnemyClass.Enemy)
+    
+    enemy1 = EnemyClass.Enemy("Skeleton", 30, 500, True, mock.Mock(spec=WeaponClass.Weapon))
+    
+    return enemy1
 
 def constructRandomDungeonRoom():
     
-    enemyList = []
-    hasEnemies = False
+    enemyCount = generateRandomEnemyCount()
+    enemyList = generateRandomEnemyList(enemyCount)
+    
+    if len(enemyList) >= 1:
+        hasEnemies = True
+    else:
+        hasEnemies = False
+        
     hasChest = False
     
     # Generate rarity of the room to set the name
