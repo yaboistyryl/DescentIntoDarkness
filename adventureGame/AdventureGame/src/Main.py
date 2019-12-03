@@ -6,6 +6,7 @@ from obj import Inventory as InventoryClass
 from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
 from obj import DungeonRoom as DungeonRoomClass
+from obj import Enemy as EnemyClass
 
 # Make players global
 player1 = None
@@ -117,12 +118,9 @@ def constructPlayers(_playerOneName, _playerTwoName):
     player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     
 def constructDungeonRoom():
-    # Initialise the dungeonRoom with basic values.
-    dungeonRoom1 = DungeonRoomClass.dungeonRoom("test", False, [], False)
-    for i in range(100):
-        # Regen the dungeonRoom to have random values.
-        dungeonRoom1.regenRandomDungeonRoom()
-        # Print for debug.
-        dungeonRoom1.printDungeonRoomInfo()
+    # Create dungeonRoom with random values
+    dungeonRoom1 = DungeonRoomClass.dungeonRoom()
+    dungeonRoom1.printDungeonRoomInfo()
 
-main()
+enemy1 = EnemyClass.Enemy(30, True)
+    

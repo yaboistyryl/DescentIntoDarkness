@@ -3,8 +3,9 @@
 """
 
 from obj import Weapon as WeaponClass
+import random
 
-debug = False
+debug = True
 
 class Enemy:
     
@@ -17,21 +18,20 @@ class Enemy:
     # int _healthPoints - The amount of health the enemy has.
     # bool _isAlive - Whether the enemy is alive or not.
     # obj _equippedWeapon - The weapon that the enemy has equipped.
-    def __init__(self, _name, _level, _healthPoints, _isAlive, _equippedWeapon):
+    def __init__(self, _level, _isAlive):
         
-        self.setName(_name)
+        self.setRandomName()
         self.setLevel(_level)
-        self.setHealthPoints(_healthPoints)
+        self.setHealthPointsFromLevel()
         self.setIsAlive(_isAlive)
-        self.setEquippedWeapon(_equippedWeapon)
+        self.setEquippedWeapon(WeaponClass.Weapon())
         
         if debug == True:
             print("\nConstructing Enemy...\n")
             print("Name: " + self.name)
-            print("Level: " + self.level)
-            print("Health Points: " + self.healthPoints)
-            print("is Alive: " + self.isAlive)
-            print("Equipped Weapon:" + self.equippedWeapon)
+            print("Level: " + str(self.level))
+            print("Health Points: " + str(self.healthPoints))
+            print("is Alive: " + str(self.isAlive))
            
     # Summary:
     # Set the name of the enemy.
@@ -72,3 +72,30 @@ class Enemy:
             self.equippedWeapon = _equippedWeapon
         else:
             raise TypeError("Enemy equippedWeapon expected an obj of type Weapon. Received: " + str(type(_equippedWeapon)) + " Check the type.")
+               
+    # Summary:
+    #   Generates a random name froma predefined list.
+    def setRandomName(self):
+        # Predefined list.
+        nameList = ["Skeleton", "Zombie", "Goblin", "Dark Knight", "Kobold", "half orc", "orc", "hobgoblin", "ogre"]
+        
+        # Create random index number based on length of predefined list.
+        randomEnemyNameIndex = random.randint(0, len(nameList)-1)
+        
+        # get random name from predefined list.
+        self.setName(nameList[randomEnemyNameIndex])
+    
+    # Summary:
+    #   Creates a random level +- 2 from player level to keep it balanced.
+    # @Param:
+    #   int _playerLevel - The level of the player.
+    def setRandomLevel(self, _playerLevel):
+        if _playerLevel - 2 <= 0:
+            self.setLevel(1)
+        elif _playerLevel + 2 >= 30:
+            self.setLevel(30)
+        else:
+            self.setLevel(random.randint(_playerLevel - 2, _playerLevel + 2))
+            
+    def setHealthPointsFromLevel(self):
+        self.setHealthPoints(self.level * 10)

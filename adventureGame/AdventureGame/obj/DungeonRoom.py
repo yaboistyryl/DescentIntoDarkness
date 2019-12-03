@@ -19,12 +19,9 @@ class dungeonRoom:
     # bool _hasEnemies - Whether the room has enemies or not.
     # int _enemyNumber - The amount of enemies in the dungeon room.
     # bool _hasChest - Whether the room has a chest or not.
-    def __init__(self, _name, _hasEnemies, _enemyList, _hasChest):
+    def __init__(self):
         
-        self.setName(_name)
-        self.setHasEnemies(_hasEnemies)
-        self.setEnemyList(_enemyList)
-        self.setHasChest(_hasChest)
+        self.regenRandomDungeonRoom()
         
         # If debug is enabled, print the instance info.
         if debug == True:
@@ -177,9 +174,9 @@ class dungeonRoom:
     @staticmethod
     def generateRandomEnemy():
         
-        enemy1 = EnemyClass.Enemy("Skeleton", 30, 500, True, mock.Mock(spec=WeaponClass.Weapon))
+        randEnemy = EnemyClass.Enemy(30, True, mock.Mock(spec=WeaponClass.Weapon))
         
-        return enemy1
+        return randEnemy
     
     # Summary:
     #   Regenerate the dungeonRoom for new random values.

@@ -2,9 +2,13 @@
 @author: Reece Draper
 """
 
-debug = False
+import random
+
+debug = True
 
 class Weapon:
+    # Common, Uncommon, Rare, Ultra Rare, Legendary
+    rarityMultiplier = [5, 10, 15, 20, 25]
     
     # Summary:
     # Constructor - Creates an instance of the class.  
@@ -14,19 +18,16 @@ class Weapon:
     # int _value - The value of the weapon.
     # int _damage - The amount of damage the weapon deals.
     # int _defence - The amount of defense the weapon provides when equipped.
-    def __init__(self, _name, _value, _damage, _defence):
+    def __init__(self):
         
-        self.setName(_name)
-        self.setValue(_value)
-        self.setDamage(_damage)
-        self.setDefence(_defence)
+        self.generateRandomWeapon()
         
         if debug == True:
             print("\nConstructing Weapon...\n")
             print("Name: " + self.name)
-            print("Value: " + self.value)
-            print("Damage: " + self.damage)
-            print("Defence: " + self.defence)
+            print("Value: " + str(self.value))
+            print("Damage: " + str(self.damage))
+            print("Defence: " + str(self.defence))
     
     # Summary:
     # Set the name of the weapon.
@@ -59,3 +60,73 @@ class Weapon:
             self.defence = _defence
         else:
             raise TypeError("Weapon defence expected an int. Received: " + str(type(_defence)) + " Check the type")
+    
+    def generateRandomWeapon(self):
+        # Generate rarity of weapon
+        self.rarity = self.generateRandomWeaponRarity()
+        
+        self.setRandomName()
+        self.setRandomValue()
+        self.setRandomDamage()
+        self.setRandomDefence()
+    
+    # Summary:
+    #   Set a random name from a predefined list of names.      
+    def setRandomName(self):#
+        rarities = ["Common", "Uncommon", "Rare", "Ultra Rare", "Legendary"]
+        namesList = ["Sword", "Long Sword", "Great Sword", "Daggers", "Karambit", "Knive", "Sickle", "Spear", "Scythe", "Mace"]
+        
+        randomNameIndex = random.randint(0, len(namesList) - 1)
+        
+        fullName = str(rarities[self.rarity]) + " " + str(namesList[randomNameIndex])
+        
+        self.setName(fullName)
+    
+    def setRandomValue(self):
+        baseValue = random.randint(1, 100)
+        
+        self.setValue(baseValue * self.rarityMultiplier[self.rarity])
+    
+    def setRandomDamage(self):
+        baseDamage = random.randint(1, 10)
+        
+        self.setDamage(baseDamage * self.rarityMultiplier[self.rarity])
+    
+    def setRandomDefence(self):
+        baseDefence = random.randint(1, 10)
+        
+        self.setDefence(baseDefence * self.rarityMultiplier[self.rarity])
+        
+    # Summary:        
+    #   Generate a random weapon rarity
+    # Rarity List:
+    #   Common - 35% chance
+    #   Uncommon - 30% chance
+    #   Rare - 20% chance
+    #   Very Rare - 10% chance
+    #   Legendary - 5% chance
+    # return index - The random weapon rarity.
+    @staticmethod
+    def generateRandomWeaponRarity():
+        
+        # Generate random number between 0 and 100 return a rarity value off of it.
+        randNumb = random.randint(0, 100)
+        # Uncommon
+        if randNumb <= 35:
+            index = 0
+        # Common
+        elif randNumb <= 65:
+            index = 1
+        # Rare
+        elif randNumb <= 85:
+            index = 2
+        # Ultra Rare
+        elif randNumb <= 95:
+            index = 3
+        # Legendary
+        elif randNumb <= 100:
+            index = 4
+        else:
+            raise Exception("You are terrible at coding if we got here")
+            
+        return index
