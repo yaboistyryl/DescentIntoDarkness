@@ -10,6 +10,8 @@ from obj import DungeonRoom as DungeonRoomClass
 # Make players global
 player1 = None
 player2 = None
+acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
+dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
 
 def main():
     # Show the title screen
@@ -124,5 +126,64 @@ def constructDungeonRoom():
         dungeonRoom1.regenRandomDungeonRoom()
         # Print for debug.
         dungeonRoom1.printDungeonRoomInfo()
+
+def UserInput():
+    # get user oinput, and return all lower case
+    userinput = input("Please type a command here:: ")
+    return userinput.lower()
+
+def SplitInput(funcInput):
+    # split input string into seperate words, return array of words
+    split = funcInput.split() #returns an array
+    return split
+
+def CheckAction(funcInput):
+    # check that the command is valid
+    acc_enemy = False
+    accepted = False
+    enemyID = ""
+    commandID = ""
+
+    try:
+        commandID = funcInput[0]
+    except:
+        print("You havent typed in a command!")
+    else:
+        # check that the command word (word 1) is in the list of commands
+        for i in range (0, len(acceptableAnswers)):
+            if (funcInput[0] == acceptableAnswers[i]):
+                accepted = True
+
+        # if the command is hit, check that the enemy exists
+        if (commandID == "hit"):
+            # check that there is an enemy to hit
+            try:
+                enemyID = funcInput[1]
+            except:
+                print("You need to say what you are hitting!")
+            else:
+                for i in range (0, len(dungeonEnemies)):
+                # word 2 is the enemy identifier
+                    if (enemyID == dungeonEnemies[i]):
+                        acc_enemy = True
+
+            # if the enemy does not exist, the command is invalid
+            if (acc_enemy == False):
+                accepted = False
+
+    return accepted
+
+def playerTurnCommand():
+    # Do not allow the turn to run unless the command is correct
+    actionAccepted = False
+
+    while (actionAccepted == False):
+        userinput = UserInput()
+        splitInput = SplitInput(userinput)
+        actionAccepted = CheckAction(splitInput)
+
+        if (actionAccepted == False):
+
+            print("That was an incorrect command, try again")
 
 main()
