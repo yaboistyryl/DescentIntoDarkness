@@ -37,6 +37,8 @@ def main():
     # Create random dungeonRoom.
     constructDungeonRoom()
     
+    playerTurnCommand()
+    
         
 def titleScreen():
     print("|==============================|")
