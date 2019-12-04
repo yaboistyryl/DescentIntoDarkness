@@ -6,7 +6,6 @@ from obj import Inventory as InventoryClass
 from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
 from obj import DungeonRoom as DungeonRoomClass
-from obj import Enemy as EnemyClass
 
 # Make players global
 player1 = None
