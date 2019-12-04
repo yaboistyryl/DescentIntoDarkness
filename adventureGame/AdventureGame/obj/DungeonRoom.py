@@ -174,7 +174,7 @@ class dungeonRoom:
     @staticmethod
     def generateRandomEnemy():
         
-        randEnemy = EnemyClass.Enemy(30, True, mock.Mock(spec=WeaponClass.Weapon))
+        randEnemy = EnemyClass.Enemy(30, True)
         
         return randEnemy
     
@@ -219,5 +219,6 @@ class dungeonRoom:
         print("Name: " + self.name)
         print("Has Enemies: " + str(self.hasEnemies))
         print("Enemy Count: " + str(len(self.enemyList)))
-        print("Enemy Number: " + str(self.enemyList))
+        for i in range(len(self.enemyList)):
+            self.enemyList[i].printEnemyInfo()
         print("Has Chest: " + str(self.hasChest))

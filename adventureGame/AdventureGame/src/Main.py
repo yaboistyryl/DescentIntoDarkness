@@ -122,5 +122,5 @@ def constructDungeonRoom():
     dungeonRoom1 = DungeonRoomClass.dungeonRoom()
     dungeonRoom1.printDungeonRoomInfo()
 
-enemy1 = EnemyClass.Enemy(30, True)
+constructDungeonRoom()
     

@@ -25,13 +25,6 @@ class Enemy:
         self.setHealthPointsFromLevel()
         self.setIsAlive(_isAlive)
         self.setEquippedWeapon(WeaponClass.Weapon())
-        
-        if debug == True:
-            print("\nConstructing Enemy...\n")
-            print("Name: " + self.name)
-            print("Level: " + str(self.level))
-            print("Health Points: " + str(self.healthPoints))
-            print("is Alive: " + str(self.isAlive))
            
     # Summary:
     # Set the name of the enemy.
@@ -99,3 +92,10 @@ class Enemy:
             
     def setHealthPointsFromLevel(self):
         self.setHealthPoints(self.level * 10)
+        
+    def printEnemyInfo(self):
+        print("\nConstructing Enemy...\n")
+        print("Name: " + self.name)
+        print("Level: " + str(self.level))
+        print("Health Points: " + str(self.healthPoints))
+        print("is Alive: " + str(self.isAlive))
