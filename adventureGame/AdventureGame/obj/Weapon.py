@@ -74,7 +74,7 @@ class Weapon:
     #   Set a random name from a predefined list of names.      
     def setRandomName(self):#
         rarities = ["Common", "Uncommon", "Rare", "Ultra Rare", "Legendary"]
-        namesList = ["Sword", "Long Sword", "Great Sword", "Daggers", "Karambit", "Knive", "Sickle", "Spear", "Scythe", "Mace"]
+        namesList = ["Sword", "Long Sword", "Great Sword", "Daggers", "Karambit", "Knife", "Sickle", "Spear", "Scythe", "Mace"]
         
         randomNameIndex = random.randint(0, len(namesList) - 1)
         
