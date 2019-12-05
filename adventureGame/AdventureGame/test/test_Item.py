@@ -17,7 +17,7 @@ def test_Item_Constructs_With_Valid_Data():
     
     # 3As | Act
     # Attempt to construct character from constructor.
-    unitUnderTest = ItemClass.item(testName, testType, testUsesLeft, testValue)
+    unitUnderTest = ItemClass.Item(testName, testType, testUsesLeft, testValue)
     
     # 3As | Assert
     # Assert that unit Under Test is not null.
@@ -39,7 +39,7 @@ def test_Item_Does_Not_Construct_With_Invalid_Name():
     # 3As | Act    
     # Attempt to construct character from constructor.    
     with assertion.raises(Exception) as exc_info:
-        unitUnderTest = ItemClass.item(testName, testType, testUsesLeft, testValue)
+        unitUnderTest = ItemClass.Item(testName, testType, testUsesLeft, testValue)
     
     # 3As | Assert
     # Assert object was not constructed.
@@ -62,7 +62,7 @@ def test_Item_Does_Not_Construct_With_Invalid_Type():
     # 3As | Act    
     # Attempt to construct character from constructor.    
     with assertion.raises(Exception) as exc_info:
-        unitUnderTest = ItemClass.item(testName, testType, testUsesLeft, testValue)
+        unitUnderTest = ItemClass.Item(testName, testType, testUsesLeft, testValue)
     
     # 3As | Assert
     # Assert object was not constructed.
@@ -85,7 +85,7 @@ def test_Item_Does_Not_Construct_With_Invalid_Uses_Left():
     # 3As | Act    
     # Attempt to construct character from constructor.    
     with assertion.raises(Exception) as exc_info:
-        unitUnderTest = ItemClass.item(testName, testType, testUsesLeft, testValue)
+        unitUnderTest = ItemClass.Item(testName, testType, testUsesLeft, testValue)
     
     # 3As | Assert
     # Assert object was not constructed.
@@ -108,7 +108,7 @@ def test_Item_Does_Not_Construct_With_Invalid_Value():
     # 3As | Act    
     # Attempt to construct character from constructor.    
     with assertion.raises(Exception) as exc_info:
-        unitUnderTest = ItemClass.item(testName, testType, testUsesLeft, testValue)
+        unitUnderTest = ItemClass.Item(testName, testType, testUsesLeft, testValue)
     
     # 3As | Assert
     # Assert object was not constructed.

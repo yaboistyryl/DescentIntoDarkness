@@ -11,26 +11,15 @@ class Weapon:
     rarityMultiplier = [5, 10, 15, 20, 25]
     
     # Summary:
-    # Constructor - Creates an instance of the class.  
-    
-    # Parameters:
-    # str _name - The name of the weapon.
-    # int _value - The value of the weapon.
-    # int _damage - The amount of damage the weapon deals.
-    # int _defence - The amount of defense the weapon provides when equipped.
+    #   Constructor - Creates an instance of the class.
     def __init__(self):
         
         self.generateRandomWeapon()
-        
-        if debug == True:
-            print("\nConstructing Weapon...\n")
-            print("Name: " + self.name)
-            print("Value: " + str(self.value))
-            print("Damage: " + str(self.damage))
-            print("Defence: " + str(self.defence))
     
     # Summary:
-    # Set the name of the weapon.
+    #   Sets the name of the weapon.
+    # @Param:
+    #   string _name - The name of the weapon.
     def setName(self, _name):
         if type(_name) is str:
             self.name = _name
@@ -38,7 +27,9 @@ class Weapon:
             raise TypeError("Weapon name expected a string. Received: " + str(type(_name)) + " Check the type")
     
     # Summary:
-    # Set the value of the weapon.
+    #   Sets the value of the weapon.
+    # @Param:
+    #   int _value - The value of the weapon.
     def setValue(self, _value):
         if type(_value) is int:
             self.value = _value
@@ -46,7 +37,9 @@ class Weapon:
             raise TypeError("Weapon value expected an int. Received: " + str(type(_value)) + " Check the type")
         
     # Summary:
-    # Set the damage of the weapon.
+    #   Sets the damage of the weapon.
+    # @Param:
+    #   int _damage - The damage of the weapon.
     def setDamage(self, _damage):
         if type(_damage) is int:
             self.damage = _damage
@@ -54,13 +47,17 @@ class Weapon:
             raise TypeError("Weapon damage expected an int. Received: " + str(type(_damage)) + " Check the type")
         
     # Summary:
-    # Set the defence of the weapon.
+    #   Sets the defence of the weapon.
+    # @Param:
+    #   int defence - The defence that the weapon provides.
     def setDefence(self, _defence):
         if type(_defence) is int:
             self.defence = _defence
         else:
             raise TypeError("Weapon defence expected an int. Received: " + str(type(_defence)) + " Check the type")
     
+    # Summary:
+    #   Generates a weapon with a random name, value, damage and defence.
     def generateRandomWeapon(self):
         # Generate rarity of weapon
         self.rarity = self.generateRandomWeaponRarity()
@@ -71,7 +68,7 @@ class Weapon:
         self.setRandomDefence()
     
     # Summary:
-    #   Set a random name from a predefined list of names.      
+    #   Sets a random name from a predefined list of names.      
     def setRandomName(self):#
         rarities = ["Common", "Uncommon", "Rare", "Ultra Rare", "Legendary"]
         namesList = ["Sword", "Long Sword", "Great Sword", "Daggers", "Karambit", "Knife", "Sickle", "Spear", "Scythe", "Mace"]
@@ -81,24 +78,30 @@ class Weapon:
         fullName = str(rarities[self.rarity]) + " " + str(namesList[randomNameIndex])
         
         self.setName(fullName)
-    
+        
+    # Summary:
+    #   Sets a random amount of value the weapon has slightly dependant on it's rarity.
     def setRandomValue(self):
         baseValue = random.randint(1, 100)
         
         self.setValue(baseValue * self.rarityMultiplier[self.rarity])
     
+    # Summary:
+    #   Sets a random amount of damage the weapon has slightly dependant on it's rarity.
     def setRandomDamage(self):
         baseDamage = random.randint(1, 10)
         
         self.setDamage(baseDamage * self.rarityMultiplier[self.rarity])
     
+    # Summary:
+    #   Sets a random amount of defence the weapon has slightly dependant on it's rarity.
     def setRandomDefence(self):
         baseDefence = random.randint(1, 10)
         
         self.setDefence(baseDefence * self.rarityMultiplier[self.rarity])
         
     # Summary:        
-    #   Generate a random weapon rarity
+    #   Generates a random weapon rarity.
     # Rarity List:
     #   Common - 35% chance
     #   Uncommon - 30% chance
@@ -130,3 +133,12 @@ class Weapon:
             raise Exception("You are terrible at coding if we got here")
             
         return index
+
+    # Summary:
+    #   Prints all of the attriibute information of the weapon instance.
+    def printWeaponInfo(self):
+        print("\nConstructing Weapon...\n")
+        print("Name: " + self.name)
+        print("Value: " + str(self.value))
+        print("Damage: " + str(self.damage))
+        print("Defence: " + str(self.defence))

@@ -13,10 +13,9 @@ debug = False
 class Inventory:
     
     # Summary:
-    # Constructor - Creates an instance of the class.
-
-    # Parameters:
-    # obj ItemClass list _items - A list of items for an inventory.
+    #   Constructor - Creates an instance of the class.
+    # @Param:
+    #   obj ItemClass list _items - A list of items for an inventory.
     def __init__(self, _items = []):
         if debug == True:
             print("\nConstructing Inventory...\n")
@@ -31,12 +30,16 @@ class Inventory:
             print("    __init__ Paramter Array:")
             for itemValue2 in _items:
                 print("    " + itemValue)
-                
+    
+    # Summary:
+    #   Sets the items of the Inventory.
+    # @Param:
+    #   obj ItemClass list _items - A list of items for an inventory.
     def setItems(self, _items = []):
         # Initilise list to contain items in inventory.        
         if len(_items) > 0 and len(_items) <= 10:
             for itemContents in _items:
-                if isinstance(itemContents, ItemClass.item) \
+                if isinstance(itemContents, ItemClass.Item) \
                 or isinstance(itemContents, WeaponClass.Weapon) \
                 or isinstance(itemContents, ArmourSetClass.ArmourSet):
                     self.items = _items
