@@ -12,6 +12,8 @@ from obj import DungeonRoom as DungeonRoomClass
 # Make players global
 player1 = None
 player2 = None
+acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
+dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
 
 # Summary:
 #   The Main function of the program. Should be the last thing called and only once.
@@ -33,11 +35,14 @@ def main():
         playerOneName = inputPlayerName(1)
         playerTwoName = inputPlayerName(2)
         constructPlayers(playerOneName, playerTwoName)
-    
+
     print("\nStarting Game...")
     
     # Create random dungeonRoom.
     constructDungeonRoom()
+    
+    tutorialText()
+    playerTurnCommand()
     
 # Summary:
 #   Prints the initial title screen at the start of the game.     
@@ -135,6 +140,82 @@ def constructDungeonRoom():
     # Create dungeonRoom with random values
     dungeonRoom1 = DungeonRoomClass.dungeonRoom()
     dungeonRoom1.printDungeonRoomInfo()
+    
+def UserInput():
+    # Summary: get user input, and return all lower case
+    userinput = input("Please type a command here:: ")
+    return userinput.lower()
 
+def SplitInput(funcInput):
+    # Summary: split input string into seperate words, return array of words
+    split = funcInput.split() #returns an array
+    return split
+
+def CheckAction(funcInput):
+    # Summary: check that the command is valid
+    # This is done by splitting the command into two chunks, command word and target
+    # It will check command word first, then object dependant on the command
+    # ["walk", "hit", "inventory", "open"] -> command words that are accepted
+    # ["skeleton", "goblin", "kobold", "zombie"] -> objects that are accepted
+    acc_enemy = False #@ acc_enemy -> acceptable enemy - control variable for if the enemy is acceptable
+    accepted = False #@ accepted -> overall control variable for if the whole command is acceptable
+    enemyID = ""     #@ enemyID -> string variable to store enemy name
+    commandID = ""   #@ commandID -> string variable to store command name
+
+    try:
+        commandID = funcInput[0]
+    except:
+        print("You havent typed in a command!")
+    else:
+        # check that the command word (word 1) is in the list of commands
+        for i in range (0, len(acceptableAnswers)):
+            if (funcInput[0] == acceptableAnswers[i]):
+                accepted = True
+
+        # if the command is hit, check that the enemy exists
+        if (commandID == "hit"):
+            # check that there is an enemy to hit
+            try:
+                enemyID = funcInput[1]
+            except:
+                print("You need to say what you are hitting!")
+            else:
+                for i in range (0, len(dungeonEnemies)):
+                # word 2 is the enemy identifier
+                    if (enemyID == dungeonEnemies[i]):
+                        acc_enemy = True
+
+            # if the enemy does not exist, the command is invalid
+            if (acc_enemy == False):
+                accepted = False
+
+    return accepted
+
+def tutorialText():
+    print("In this game, you control your player by typing in a command")
+    print("Commands are not case sensitive, however, any misspelling will require you to retype the command")
+    print("The core commands are:")
+    print("'move' - this will move you to the next room, provided there are no alive enemies in your current room")
+    print("'open' - this will open the chest in your present room, if there is an unopened chest")
+    print("'inventory' - this will show you the items in your inventory (you can hold 10 items in your inventory at any time)")
+    print("'hit [enemyName] - this will get your character to you their equipped weapon to hit the enemy name you type in")
+    print("Good luck traveller!")
+    
+def playerTurnCommand(_inputTutorialFlag):
+    # Summary: Get user input, evaluate, loop if the input is not an acceptable command
+    # Do not allow the turn to run unless the command is correct
+    actionAccepted = False  #@ actionAccepted -> loop control variable
+    while (actionAccepted == False):
+        if _inputTutorialFlag == False:
+            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+            #make instructions never print again.
+            _inputTutorialFlag = True
+        userinput = UserInput()                     #@ userinput -> initial user input as a string
+        splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
+        actionAccepted = CheckAction(splitInput)
+
+        if (actionAccepted == False):
+
+            print("That was an incorrect command, try again")
 constructDungeonRoom()
     
