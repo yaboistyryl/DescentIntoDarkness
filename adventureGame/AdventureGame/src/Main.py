@@ -12,6 +12,7 @@ player1 = None
 player2 = None
 acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
 dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
+inputTutorialFlag = False
 
 def main():
     # Show the title screen
@@ -130,21 +131,25 @@ def constructDungeonRoom():
         dungeonRoom1.printDungeonRoomInfo()
 
 def UserInput():
-    # get user oinput, and return all lower case
+    # Summary: get user input, and return all lower case
     userinput = input("Please type a command here:: ")
     return userinput.lower()
 
 def SplitInput(funcInput):
-    # split input string into seperate words, return array of words
+    # Summary: split input string into seperate words, return array of words
     split = funcInput.split() #returns an array
     return split
 
 def CheckAction(funcInput):
-    # check that the command is valid
-    acc_enemy = False
-    accepted = False
-    enemyID = ""
-    commandID = ""
+    # Summary: check that the command is valid
+    # This is done by splitting the command into two chunks, command word and target
+    # It will check command word first, then object dependant on the command
+    # ["walk", "hit", "inventory", "open"] -> command words that are accepted
+    # ["skeleton", "goblin", "kobold", "zombie"] -> objects that are accepted
+    acc_enemy = False #@ acc_enemy -> acceptable enemy - control variable for if the enemy is acceptable
+    accepted = False #@ accepted -> overall control variable for if the whole command is acceptable
+    enemyID = ""     #@ enemyID -> string variable to store enemy name
+    commandID = ""   #@ commandID -> string variable to store command name
 
     try:
         commandID = funcInput[0]
@@ -176,12 +181,17 @@ def CheckAction(funcInput):
     return accepted
 
 def playerTurnCommand():
+    # Summary: Get user input, evaluate, loop if the input is not an acceptable command
     # Do not allow the turn to run unless the command is correct
-    actionAccepted = False
+    actionAccepted = False  #@ actionAccepted -> loop control variable
 
     while (actionAccepted == False):
-        userinput = UserInput()
-        splitInput = SplitInput(userinput)
+        if inputTutorialFlag == False:
+            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+            #make instructions never print again.
+            inputTutorialFlag = true
+        userinput = UserInput()                     #@ userinput -> initial user input as a string
+        splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
         actionAccepted = CheckAction(splitInput)
 
         if (actionAccepted == False):
