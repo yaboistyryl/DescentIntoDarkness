@@ -193,12 +193,15 @@ def tutorialText():
     print("Good luck traveller!")
 
 def playerTurnCommand():
+def playerTurnCommand(_inputTutorialFlag):
     # Summary: Get user input, evaluate, loop if the input is not an acceptable command
     # Do not allow the turn to run unless the command is correct
     actionAccepted = False  #@ actionAccepted -> loop control variable
-
     while (actionAccepted == False):
-        print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+        if _inputTutorialFlag == False:
+            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+            #make instructions never print again.
+            _inputTutorialFlag = True
         userinput = UserInput()                     #@ userinput -> initial user input as a string
         splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
         actionAccepted = CheckAction(splitInput)

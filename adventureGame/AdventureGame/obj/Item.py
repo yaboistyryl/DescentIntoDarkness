@@ -6,7 +6,7 @@ debug = False
 
 # Summary:
 # Class for items of inventories.
-class item:
+class Item:
     
     # Summary:
     # Constructor - Creates an instance of the class.  
