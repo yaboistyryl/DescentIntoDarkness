@@ -48,3 +48,5 @@ adventureGame/AdventureGame/test/__pycache__/test_Item.cpython-37-pytest-5.2.3.p
 adventureGame/AdventureGame/test/__pycache__/test_Loot.cpython-37-pytest-5.2.3.pyc
 
 adventureGame/AdventureGame/test/__pycache__/test_Weapon.cpython-37-pytest-5.2.3.pyc
+
+adventureGame/AdventureGame/obj/__pycache__/
