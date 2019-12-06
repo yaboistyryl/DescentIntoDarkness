@@ -12,7 +12,6 @@ player1 = None
 player2 = None
 acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
 dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
-inputTutorialFlag = False
 
 def main():
     # Show the title screen
@@ -33,7 +32,10 @@ def main():
         playerTwoName = inputPlayerName(2)
         constructPlayers(playerOneName, playerTwoName)
     
+    tutorialText()
+    
     print("\nStarting Game...")
+    
     
     # Create random dungeonRoom.
     constructDungeonRoom()
@@ -180,16 +182,23 @@ def CheckAction(funcInput):
 
     return accepted
 
+def tutorialText():
+    print("In this game, you control your player by typing in a command")
+    print("Commands are not case sensitive, however, any misspelling will require you to retype the command")
+    print("The core commands are:")
+    print("'move' - this will move you to the next room, provided there are no alive enemies in your current room")
+    print("'open' - this will open the chest in your present room, if there is an unopened chest")
+    print("'inventory' - this will show you the items in your inventory (you can hold 10 items in your inventory at any time)")
+    print("'hit [enemyName] - this will get your character to you their equipped weapon to hit the enemy name you type in")
+    print("Good luck traveller!")
+
 def playerTurnCommand():
     # Summary: Get user input, evaluate, loop if the input is not an acceptable command
     # Do not allow the turn to run unless the command is correct
     actionAccepted = False  #@ actionAccepted -> loop control variable
 
     while (actionAccepted == False):
-        if inputTutorialFlag == False:
-            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
-            #make instructions never print again.
-            inputTutorialFlag = true
+        print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
         userinput = UserInput()                     #@ userinput -> initial user input as a string
         splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
         actionAccepted = CheckAction(splitInput)
