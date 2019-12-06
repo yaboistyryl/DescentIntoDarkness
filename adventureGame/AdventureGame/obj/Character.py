@@ -1,5 +1,7 @@
 """
 @author: Reece Draper
+TO DO:
+    LevelUp() Function.
 """
 
 # Using utf-8 Character Encoding
@@ -12,23 +14,22 @@ from obj import ArmourSet as ArmourSetClass
 debug = False
 
 # Summary:
-# Class for playable character.
+# Class for character.
 class Character:
 
     # Summary:
-    # Constructor for Character Object.
-    
-    # Parameters:
-    # str _name - The name of the playable character.
-    # int _level - The skill level of the playable character.
-    # int _healthPoints - The total amount of healthPoints the playable character has.
-    # int _manaPoints - The total amount of mana points (Magical points) the playable character has.
-    # int _experience - The total amount of experience the player has. Should directly tie to skill level.
-    # int _defence - The total amount of defence the playable character has.
-    # obj InventoryClass _inventory - The inventory of the playable character.
-    # obj WeaponClass _equippedWeapon - The equipped weapon of the playable character.
-    # obj ArmourSetClass _armourSet - The armour set the playable character has equipped.
-    # int _gold - The amount of gold the character has.
+    #   Constructor for Character Object.
+    # @Params:
+    #   str _name - The name of the character.
+    #   int _level - The skill level of the character.
+    #   int _healthPoints - The total amount of healthPoints the character has.
+    #   int _manaPoints - The total amount of mana points (Magical points) the character has.
+    #   int _experience - The total amount of experience the player has. Should directly tie to skill level.
+    #   int _defence - The total amount of defence the character has.
+    #   obj InventoryClass _inventory - The inventory of the character.
+    #   obj WeaponClass _equippedWeapon - The equipped weapon of the character.
+    #   obj ArmourSetClass _armourSet - The armour set the character has equipped.
+    #   int _gold - The amount of gold the character has.
     def __init__(self, _name, _level, _healthPoints, _manaPoints, _experience, _defence, _inventory, _equippedWeapon, _armourSet, _gold):
 
         # Setup attributes
@@ -43,21 +44,15 @@ class Character:
         self.setArmourSet(_armourSet)
         self.setGold(_gold)
             
-        # If in debug mode, print values to coonsole
+        # If in debug mode, print values to console
         if debug == True:
             print("\nConstructing character...\n")
-            print("Name: " + self.name)
-            print("Level: " + str(self.level))
-            print("Health Points: " + str(self.healthPoints))
-            print("Mana Points: " + str(self.manaPoints))
-            print("Experience: " + str(self.experience))
-            print("Defence: " + str(self.defence))
-            print("Inventory: " + str(self.inventory))
-            print("Equipped Weapon: " + str(self.equippedWeapon))
-            print("Armour Set: " + str(self.armourSet)) 
+            self.printCharacterInfo()
         
     # Summary:
-    # Set the value of name.
+    #   Sets the value of name.
+    # @Param:
+    #   string _name - The name of the character.
     def setName(self, _name):
         if type(_name) is str:
             self.name = _name
@@ -65,7 +60,9 @@ class Character:
             raise TypeError("Character name expected a string. Received: " + str(type(_name)) + " Check the type")
         
     # Summary:
-    # Set the level of the playable character. Should directly correlate with experience points.
+    #   Sets the level of the character. Should directly correlate with experience points.
+    # @Param:
+    #   int _level - The level of the character.
     def setLevel(self, _level):
         if type(_level) is int:
             self.level = _level
@@ -73,15 +70,18 @@ class Character:
             raise TypeError("Character level expected an int. Received: " + str(type(_level)) + " Check the type")
         
     # Summary:
-    # Set the total amount of health points for the playable character.
+    #   Sets the total amount of health points for the character.
+    # @Param:
+    #   int _healthPoints - The amount of the health points for the character.
     def setHealthPoints(self, _healthPoints):
         if type(_healthPoints) is int:
             self.healthPoints = _healthPoints
         else:
             raise TypeError("Character health points expected an int. Received: " + str(type(_healthPoints)) + " Check the type")
-  
+            
+    # Potential removal, not updating.
     # Summary:
-    # Set the total amount of mana (magical) points for the playable character.      
+    #   Sets the total amount of mana (magical) points for the character.      
     def setManaPoints(self, _manaPoints):
         if type(_manaPoints) is int:
             self.manaPoints = _manaPoints
@@ -89,7 +89,9 @@ class Character:
             raise TypeError("Character mana points expected an int. Received: " + str(type(_manaPoints)) + " Check the type")
     
     # Summary:
-    # Set the total amount of experience points. Should directly relate to level.
+    #   Sets the total amount of experience points. Should directly relate to level.
+    # @Param:
+    #   int _experience - The experience of the player.
     def setExperience(self, _experience):
         if type(_experience) is int:
             self.experience = _experience
@@ -97,16 +99,19 @@ class Character:
             raise TypeError("Character experience expected an int. Received: " + str(type(_experience)) + " Check the type")
         
     # Summary:
-    # Set the total amount of defence points for the playable character.
+    #   Sets the total amount of defence points for the character.
+    # @Param:
+    #   int _defence - The defence of the character.
     def setDefence(self, _defence):
         if type(_defence) is int:
             self.defence = _defence
         else:
             raise TypeError("Character defence expected an int. Received: " + str(type(_defence)) + " Check the type")
-    
-    # For the next 3 methods, typecheck is not performed as type doesn't exist yet.
+
     # Summary:
-    # Set the inventory of the playable character.
+    #   Sets the inventory of the character.
+    # @Param:
+    #   obj Inventory _inventory - The inventory of the character.
     def setInventory(self, _inventory):
         if isinstance(_inventory, InventoryClass.Inventory):
             self.inventory = _inventory
@@ -114,7 +119,9 @@ class Character:
             raise TypeError("Character inventory expected an obj of type Inventory. Received: " + str(type(_inventory)) + " Check the type")
         
     # Summary:
-    # Set the equipped weapon of the playable character.
+    #   Sets the equipped weapon of the character.
+    # @Param:
+    #   obj Weapon _equippedWeapon - The weapon that the character is going to use to fight.
     def setEquippedWeapon(self, _equippedWeapon):
         if isinstance(_equippedWeapon, WeaponClass.Weapon):
             self.equippedWeapon = _equippedWeapon
@@ -122,7 +129,9 @@ class Character:
             raise TypeError("Character equippedWeapon expected an obj of type Weapon. Received: " + str(type(_equippedWeapon)) + " Check the type")
         
     # Summary:
-    # Set the armour set of the character.
+    #   Sets the armour set of the character.
+    # @Param:
+    #   obj ArmourSet _armourSet - The armour set that the character is going to wear.
     def setArmourSet(self, _armourSet):
         if isinstance(_armourSet, ArmourSetClass.ArmourSet):
             self.armourSet = _armourSet
@@ -130,9 +139,24 @@ class Character:
             raise TypeError("Character armourSet expected an obj of type ArmourSet. Received: " + str(type(_armourSet)) + " Check the type")
     
     # Summary:
-    # Set the amount of gold of the character.
+    #   Sets the amount of gold of the character.
+    # @Param:
+    #   The amount of gold the character has.
     def setGold(self, _gold):
         if type(_gold) is int:
             self.gold = _gold
         else:
             raise TypeError("Character gold expected an int. Received: " + str(type(_gold)) + " Check the type")
+    
+    # Summary:
+    #   Prints the the attributes of the character.
+    def printCharacterInfo(self):
+        print("Name: " + self.name)
+        print("Level: " + str(self.level))
+        print("Health Points: " + str(self.healthPoints))
+        print("Mana Points: " + str(self.manaPoints))
+        print("Experience: " + str(self.experience))
+        print("Defence: " + str(self.defence))
+        print("Inventory: " + str(self.inventory))
+        print("Equipped Weapon: " + str(self.equippedWeapon))
+        print("Armour Set: " + str(self.armourSet)) 

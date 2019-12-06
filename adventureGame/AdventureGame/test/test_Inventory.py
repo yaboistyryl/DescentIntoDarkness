@@ -11,7 +11,7 @@ from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
 
 # Create mockedItem with type return ItemClass.Item.
-mockedItem = mock.Mock(spec=ItemClass.item)
+mockedItem = mock.Mock(spec=ItemClass.Item)
 
 # Create mockedWeapon with type return WeaponClass.Weapon.
 mockedWeapon = mock.Mock(spec=WeaponClass.Weapon)

@@ -4,34 +4,19 @@
 """
 
 from obj import Enemy as EnemyClass
-from obj import Weapon as WeaponClass
-import unittest.mock as mock
 import random
 
 debug = False
 
 class dungeonRoom:
     # Summary:
-    # Constructor - Creates an instance of the class.
-    
-    # Parameters:
-    # str _name - the name of the dungeon room.
-    # bool _hasEnemies - Whether the room has enemies or not.
-    # int _enemyNumber - The amount of enemies in the dungeon room.
-    # bool _hasChest - Whether the room has a chest or not.
-    def __init__(self, _name, _hasEnemies, _enemyList, _hasChest):
+    #   Constructor - Creates an instance of the class. Generates random attributes.
+    def __init__(self):
         
-        self.setName(_name)
-        self.setHasEnemies(_hasEnemies)
-        self.setEnemyList(_enemyList)
-        self.setHasChest(_hasChest)
-        
-        # If debug is enabled, print the instance info.
-        if debug == True:
-            self.printDungeonRoomInfo()
+        self.regenRandomDungeonRoom()
             
     # Summary:
-    # Set the name of the dungeon room.
+    #   Sets the name of the dungeon room.
     def setName(self, _name):
         if type(_name) is str:
             self.name = _name
@@ -39,13 +24,19 @@ class dungeonRoom:
             raise TypeError("DungeonRoom name expected a string. Received: " + str(type(_name)) + " Check the type")
         
     # Summary:
-    # Set whether the room has enemies or not.
+    #   Sets whether the room has enemies or not.
+    # @Param:
+    #   bool _hasEnemies - Whether the dungeonRoom has enemies or not.
     def setHasEnemies(self, _hasEnemies):
         if type(_hasEnemies) is bool:
             self.hasEnemies = _hasEnemies
         else:
             raise TypeError("DungeonRoom hasEnemies expected a bool. Received: " + str(type(_hasEnemies)) + " Check the type")
     
+    # Summary:
+    #   Sets the enemyList of the dungeonRoom.
+    # @Param:
+    #   list obj Enemy _enemyList - the list of enemies that exist within the dungeonRoom. 
     def setEnemyList(self, _enemyList):
         if type(_enemyList) is list:
             if len(_enemyList) == 0:
@@ -62,12 +53,12 @@ class dungeonRoom:
             raise TypeError("DungeonRoom enemyList expected a list. Received: " + str(type(_enemyList)) + " Check the type")
     
     # Summary:
-    # Set the amount of enemies in the dungeon room.
+    #   Sets the amount of enemies in the dungeon room.
     def setEnemyNumber(self):
         self.enemyNumber = len(self.enemyList)
       
     # Summary:
-    # Set whether the room has a chest or not.
+    # Sets whether the room has a chest or not.
     def setHasChest(self, _hasChest):
         if type(_hasChest) is bool:    
             self.hasChest = _hasChest
@@ -75,7 +66,7 @@ class dungeonRoom:
             raise TypeError("DungeonRoom hasChest expected a bool. Received: " + str(type(_hasChest)) + " Check the type")
     
     # Summary:        
-    #   Generate a random room rarity
+    #   Generates a random room rarity.
     # Rarity List:
     #   Common - 35% chance
     #   Uncommon - 30% chance
@@ -108,7 +99,7 @@ class dungeonRoom:
         return index
         
     # Summary:
-    #   Generate amount of enemys.
+    #   Generates the amount of enemies.
     # Enemy list:
     #   No Enemies - 10% chance.
     #   1 enemy - 35% chance.
@@ -138,7 +129,7 @@ class dungeonRoom:
         return randomEnemyCount
     
     # Summary:        
-    #   Generate random chest chance.
+    #   Generates random chest chance.
     # Chest Chance list:
     #   Chest - 90% chance.
     #   No Chest - 10% chance.
@@ -157,9 +148,9 @@ class dungeonRoom:
         return hasChest
     
     # Summary:
-    #   Generate random enemy list based on the amount of enemies given.
+    #   Generates random enemy list based on the amount of enemies given.
     # @Param:
-    #   @enemyCount - The amount of enemies to generate in the list.
+    #   enemyCount - The amount of enemies to generate in the list.
     # Return:
     #   enemyList - The list of enemies for the dungeon room.
     def generateRandomEnemyList(self, enemyCount):
@@ -171,18 +162,18 @@ class dungeonRoom:
         
         return enemyList
     
-    # Generate a random enemy
-    # Currently in the dungeonRoom class. Will be moved to enemyClass in future work.
-    # Currently utilises a mock weapon. needs to be changed.
+    # Summary:
+    #   Generates a random enemy for the dungeonRoom enemyList attribute.
+    #   For all class methods that do not utilise 'self', it must be declared as a static method.
     @staticmethod
     def generateRandomEnemy():
         
-        enemy1 = EnemyClass.Enemy("Skeleton", 30, 500, True, mock.Mock(spec=WeaponClass.Weapon))
+        randEnemy = EnemyClass.Enemy(30, True)
         
-        return enemy1
+        return randEnemy
     
     # Summary:
-    #   Regenerate the dungeonRoom for new random values.
+    #   Regenerates the dungeonRoom for new random values.
     def regenRandomDungeonRoom(self):
         
         # List of potential room names
@@ -216,11 +207,12 @@ class dungeonRoom:
         self.setHasChest(hasChest)
     
     # Summary:
-    #   Print all the information about the instance of the dungeonRoom.
+    #   Prints all the information about the instance of the dungeonRoom.
     def printDungeonRoomInfo(self):
         print("\nConstructing dungeonRoom...\n")
         print("Name: " + self.name)
         print("Has Enemies: " + str(self.hasEnemies))
         print("Enemy Count: " + str(len(self.enemyList)))
-        print("Enemy Number: " + str(self.enemyList))
+        for i in range(len(self.enemyList)):
+            self.enemyList[i].printEnemyInfo()
         print("Has Chest: " + str(self.hasChest))

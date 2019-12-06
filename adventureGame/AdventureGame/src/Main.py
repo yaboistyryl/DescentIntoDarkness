@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+"""
+@author: Reece Draper; Alex Downing; Ayman Choudhery
+"""
 
 import time
 from obj import Character as CharacterClass
@@ -11,8 +13,10 @@ from obj import DungeonRoom as DungeonRoomClass
 player1 = None
 player2 = None
 
+# Summary:
+#   The Main function of the program. Should be the last thing called and only once.
 def main():
-    # Show the title screen
+    # Show the title screen.
     titleScreen()
     
     # Wait for user to input a key.
@@ -35,13 +39,16 @@ def main():
     # Create random dungeonRoom.
     constructDungeonRoom()
     
-        
+# Summary:
+#   Prints the initial title screen at the start of the game.     
 def titleScreen():
     print("|==============================|")
     print("|  Welcome to Adventure Game!  |")
     print("| Enter any value to continue! |")
     print("|==============================|")
     
+# Summary:
+#   Handles the beginning of the game. Sets the scene and gathers required user information.
 def introduction():
     print("Sir Gregos IV: \"Quickly, in here! They're too many of them!\"\n")
     time.sleep(3)
@@ -60,7 +67,7 @@ def introduction():
     print("Sir Gregos IV: \"What is your name friend?\"")
     time.sleep(4)
     
-    # Function created for validation and reusability
+    # Gets the name of player 2 from player 2.
     playerOneName = inputPlayerName(1)
     
     print("\nSir Gregos IV: \"Ahh, " + playerOneName + " it is. how about you friend?\"\n")
@@ -68,6 +75,7 @@ def introduction():
     print("Sir Gregos nods towards the second person to walk through the door")
     time.sleep(4)
     
+    # Gets the name of player 2 from player 2.
     playerTwoName = inputPlayerName(2)
     
     print("\nSir Gregos IV: \"Great to meet you too, " + playerTwoName + ", sorry it's under such awful circumstances...\"\n")
@@ -86,8 +94,11 @@ def introduction():
     time.sleep(3)
     print("The door is sealed behind you as you take your first glimpse of the room...\n")
     
+    # Constructs the players from the data given by the user.
     constructPlayers(playerOneName, playerTwoName)
-    
+
+# Summary:
+#   Function to handle the input of the player names. Adds reusability, maintenance and data validation.
 def inputPlayerName(_playerNumber):
     _playerInputSuccess = False
     while _playerInputSuccess == False:
@@ -101,6 +112,8 @@ def inputPlayerName(_playerNumber):
         else:
             print("\nSir Gregos IV: \"Hmm, that's a long name. Do you have a nickname? Perhaps one with less than 20 letters?\"")
     
+# Summary:
+#   Function that constructs the players from the names given.
 def constructPlayers(_playerOneName, _playerTwoName):
     
     level = 1
@@ -115,14 +128,13 @@ def constructPlayers(_playerOneName, _playerTwoName):
     
     player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
     player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
-    
-def constructDungeonRoom():
-    # Initialise the dungeonRoom with basic values.
-    dungeonRoom1 = DungeonRoomClass.dungeonRoom("test", False, [], False)
-    for i in range(100):
-        # Regen the dungeonRoom to have random values.
-        dungeonRoom1.regenRandomDungeonRoom()
-        # Print for debug.
-        dungeonRoom1.printDungeonRoomInfo()
 
-main()
+# Summary:
+#   Constructs the dungeonRoom. This can be removed and replaced with a normal construction if we no longer print the construction info.
+def constructDungeonRoom():
+    # Create dungeonRoom with random values
+    dungeonRoom1 = DungeonRoomClass.dungeonRoom()
+    dungeonRoom1.printDungeonRoomInfo()
+
+constructDungeonRoom()
+    
