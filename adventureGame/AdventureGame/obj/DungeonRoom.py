@@ -12,7 +12,7 @@ class dungeonRoom:
     # Summary:
     #   Constructor - Creates an instance of the class. Generates random attributes.
     def __init__(self):
-        
+        self.enemyList = []
         self.regenRandomDungeonRoom()
             
     # Summary:
@@ -158,7 +158,10 @@ class dungeonRoom:
         enemyList = []
         
         # Generate a random enemy equal to the amount of enemies passed in.
-        enemyList = [self.generateRandomEnemy()] * enemyCount
+        #enemyList = [self.generateRandomEnemy()] * enemyCount
+        
+        for i in range(enemyCount):
+            enemyList.append(self.generateRandomEnemy())
         
         return enemyList
     
@@ -185,8 +188,20 @@ class dungeonRoom:
         
         # Create random enemy count from 0-3
         enemyCount = self.generateRandomEnemyCount()
+
         # Create enemyList from amount of enemies
         enemyList = self.generateRandomEnemyList(enemyCount)
+        
+        # Check for duplicates in enemyList. 
+        dupeCheck = self.checkDuplicateEnemies(enemyList)
+
+        while dupeCheck == True:
+            if debug == True:
+                print("Duplicate Encountered! Regenerating!")
+            
+            # Create enemyList from amount of enemies
+            enemyList = self.generateRandomEnemyList(enemyCount)
+            dupeCheck = self.checkDuplicateEnemies(enemyList)
         
         # If the enemyList has one enemy or more, set boolean value hasEnemies to true.
         if len(enemyList) >= 1:
@@ -206,6 +221,30 @@ class dungeonRoom:
         self.setEnemyList(enemyList)
         self.setHasChest(hasChest)
     
+    # Summary: 
+    #   An issue was found where a player couldn't attack if there were two enemies of the same name in the dungeon room. This function will return a bool value if there is duplicate enemies in the room.
+    # @Param:
+    #   List obj Enemy - The enemy list you wish to check for duplicates.
+    # Returns:
+    #   bool duplicateCheck - Whether the list has duplicates. True for duplicates, false for no duplicates. 
+    def checkDuplicateEnemies(self, _enemyList):
+        
+        duplicateCheck = False
+        
+        # Check if it's empty.
+        if len(_enemyList) > 0:
+            # Iterate through length of enemylist
+            for i in range(len(_enemyList)):
+                # Iterate through length of enemyList again to compate the two.
+                for j in range(len(_enemyList)):
+                    # If they're the same.
+                    if _enemyList[i].name == _enemyList[j].name:
+                        # Check the indexes are not the same. If they're not, then there is a duplicate.
+                        if i != j:
+                            duplicateCheck = True
+                        
+        return duplicateCheck
+    
     # Summary:
     #   Prints all the information about the instance of the dungeonRoom.
     def printDungeonRoomInfo(self):
@@ -215,4 +254,4 @@ class dungeonRoom:
         print("Enemy Count: " + str(len(self.enemyList)))
         for i in range(len(self.enemyList)):
             self.enemyList[i].printEnemyInfo()
-        print("Has Chest: " + str(self.hasChest))
+        print("\nHas Chest: " + str(self.hasChest))

@@ -217,7 +217,7 @@ def playerTurnCommand(_inputTutorialFlag):
         userinput = UserInput()                     #@ userinput -> initial user input as a string
         splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
         actionAccepted = CheckAction(splitInput)
-
+        
         if (actionAccepted == False):
             print("That was an incorrect command, try again")
             playerTurnCommand(_inputTutorialFlag)
