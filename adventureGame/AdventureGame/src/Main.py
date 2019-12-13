@@ -36,8 +36,6 @@ def main():
         playerOneName = inputPlayerName(1)
         playerTwoName = inputPlayerName(2)
         constructPlayers(playerOneName, playerTwoName)
-
-    print("\nStarting Game...")
     
     # Create random dungeonRoom.
     constructDungeonRoom()
@@ -140,7 +138,6 @@ def constructDungeonRoom():
     # Create dungeonRoom with random values
     global dungeonRoom1
     dungeonRoom1 = DungeonRoomClass.dungeonRoom()
-    dungeonRoom1.printDungeonRoomInfo()
     
 def UserInput():
     # Summary: get user input, and return all lower case
@@ -173,9 +170,43 @@ def CheckAction(funcInput):
         for i in range (0, len(acceptableAnswers)):
             if (funcInput[0] == acceptableAnswers[i]):
                 accepted = True
-
+        # if the command is move, check that enemies are dead and chest has been opened.
+        if(commandID == "move"):
+            # Check if enemies are alive.
+            aliveCount = 0
+            for enemy in dungeonRoom1.enemyList:
+                if enemy.isAlive == True:
+                    print("Cannot move as at least 1 enemy is still alive!")
+                    aliveCount += 1
+                    # Get out of if statement                
+                
+            if aliveCount == 0:
+                # Check if chest is available to open
+                if dungeonRoom1.hasChest == True:
+                    userInput = input("This room has chest that you can open. Would you still like to proceed in changing rooms?\n")
+                    userInput.lower()
+                    
+                    exitCondition = False
+                    leaveRoom = False
+                    
+                    # Get confirmation of room exit
+                    while exitCondition == False:
+                        if userInput == "no":
+                            print("\nYou turn away from the door, looking back into the room")
+                            exitCondition = True
+                            leaveRoom = False
+                        elif userInput == "yes":
+                            print("\nYou open the door and enter the next room")
+                            exitCondition = True
+                            leaveRoom = True
+                        
+                    if leaveRoom == True:
+                        dungeonRoom1.regenRandomDungeonRoom()
+                        
+                accepted = True                    
+                
         # if the command is hit, check that the enemy exists
-        if (commandID == "hit"):
+        elif (commandID == "hit"):
             # check that there is an enemy to hit
             try:
                 enemyID = funcInput[1]
@@ -192,7 +223,13 @@ def CheckAction(funcInput):
             # if the enemy does not exist, the command is invalid
             if (acc_enemy == False):
                 accepted = False
-
+                
+        elif(commandID == "open"):
+            print("Selected Action: Open - Currently not implemented.")
+            accepted == True
+        elif (commandID == "inventory"):
+            print("Selected Action: Inventory - Currently not implemented.")
+            accepted == True
     return accepted
 
 def tutorialText():

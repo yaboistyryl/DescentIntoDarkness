@@ -160,8 +160,8 @@ class dungeonRoom:
         # Generate a random enemy equal to the amount of enemies passed in.
         #enemyList = [self.generateRandomEnemy()] * enemyCount
         
-        for i in range(enemyCount):
-            enemyList.append(self.generateRandomEnemy())
+        #for i in range(enemyCount):
+        #    enemyList.append(self.generateRandomEnemy())
         
         return enemyList
     
@@ -220,6 +220,8 @@ class dungeonRoom:
         self.setHasEnemies(hasEnemies)
         self.setEnemyList(enemyList)
         self.setHasChest(hasChest)
+        
+        self.printDungeonRoomInfo()
     
     # Summary: 
     #   An issue was found where a player couldn't attack if there were two enemies of the same name in the dungeon room. This function will return a bool value if there is duplicate enemies in the room.
@@ -248,10 +250,11 @@ class dungeonRoom:
     # Summary:
     #   Prints all the information about the instance of the dungeonRoom.
     def printDungeonRoomInfo(self):
-        print("\nConstructing dungeonRoom...\n")
-        print("Name: " + self.name)
-        print("Has Enemies: " + str(self.hasEnemies))
-        print("Enemy Count: " + str(len(self.enemyList)))
+        print("\nYou enter a new mysterious " + self.name + "...")
+        print("You immediately see " + str(len(self.enemyList)) + " enemies,")
         for i in range(len(self.enemyList)):
             self.enemyList[i].printEnemyInfo()
-        print("\nHas Chest: " + str(self.hasChest))
+        if self.hasChest == True:
+            print("you also notice that there is a chest in the corner of the room.")
+        elif self.hasChest == False:
+            print("there is no chest to be seen.")
