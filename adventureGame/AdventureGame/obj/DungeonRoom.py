@@ -157,11 +157,8 @@ class dungeonRoom:
         # Initialise _enemyList
         enemyList = []
         
-        # Generate a random enemy equal to the amount of enemies passed in.
-        #enemyList = [self.generateRandomEnemy()] * enemyCount
-        
-        #for i in range(enemyCount):
-        #    enemyList.append(self.generateRandomEnemy())
+        for i in range(enemyCount):
+            enemyList.append(self.generateRandomEnemy())
         
         return enemyList
     

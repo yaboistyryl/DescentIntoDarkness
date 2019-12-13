@@ -176,8 +176,10 @@ def CheckAction(funcInput):
             aliveCount = 0
             for enemy in dungeonRoom1.enemyList:
                 if enemy.isAlive == True:
-                    print("Cannot move as at least 1 enemy is still alive!")
+                    print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
                     aliveCount += 1
+                    accepted = True
+                    break
                     # Get out of if statement                
                 
             if aliveCount == 0:
