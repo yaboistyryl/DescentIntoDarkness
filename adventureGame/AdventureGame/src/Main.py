@@ -4,142 +4,57 @@
 
 import time
 from obj import Character as CharacterClass
-from obj import Inventory as InventoryClass
-from obj import Weapon as WeaponClass
-from obj import ArmourSet as ArmourSetClass
 from obj import DungeonRoom as DungeonRoomClass
 
-# Make players global
-player1 = None
-player2 = None
+
 acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
-dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
 
 # Summary:
 #   The Main function of the program. Should be the last thing called and only once.
 def main():
-    # Show the title screen.
-    titleScreen()
-    
-    # Wait for user to input a key.
-    userInput = input()
-    
-    # Clear the terminal screen.
-    for i in range(50):
-        print("\n")
-    
-    # If the user types "skip", it allows them to skip the introduction story.
-    if userInput != "skip":
-        introduction()
-    else:    
-        playerOneName = inputPlayerName(1)
-        playerTwoName = inputPlayerName(2)
-        constructPlayers(playerOneName, playerTwoName)
 
-    print("\nStarting Game...")
+    inputTutorialFlag = False
     
     # Create random dungeonRoom.
     constructDungeonRoom()
-    
-    tutorialText()
-    playerTurnCommand()
-    
+    playerTurnCommand(inputTutorialFlag)
+   
+# Summary:
+#   Clears the terminal screen by outputting 50 new lines.
+def clearTerminal():
+    # Clear the terminal screen.
+    for i in range(50):
+        print("\n")
+        
 # Summary:
 #   Prints the initial title screen at the start of the game.     
 def titleScreen():
-    print("|==============================|")
+    print("\n|==============================|")
     print("|  Welcome to Adventure Game!  |")
     print("| Enter any value to continue! |")
     print("|==============================|")
-    
-# Summary:
-#   Handles the beginning of the game. Sets the scene and gathers required user information.
-def introduction():
-    print("Sir Gregos IV: \"Quickly, in here! They're too many of them!\"\n")
-    time.sleep(3)
-    print("You and your friend hurry inside the ominous room where sir Gregos IV awaits, and closes the door behind you.\n")
-    time.sleep(4)
-    print("Sir Gregos IV: \"That's not going to hold them long, this should help\"\n")
-    time.sleep(3)
-    print("Sir Gregos walks over to the door and uses his formidable shield between the anchor points where normally a large plank of wood would be.\n")
-    time.sleep(4)
-    print("Sir Gregos IV: \"That should hold them off long enough\"\n")
-    time.sleep(3)
-    print("Sir Gregos IV: \"The name\'s Sir Gregos IV, long serving commander of the king\'s forces\"\n")
-    time.sleep(3)
-    print("Sir Gregos nods to the first of you two to walk through the door.\n")
-    time.sleep(3)
-    print("Sir Gregos IV: \"What is your name friend?\"")
-    time.sleep(4)
-    
-    # Gets the name of player 2 from player 2.
-    playerOneName = inputPlayerName(1)
-    
-    print("\nSir Gregos IV: \"Ahh, " + playerOneName + " it is. how about you friend?\"\n")
-    time.sleep(3)
-    print("Sir Gregos nods towards the second person to walk through the door")
-    time.sleep(4)
-    
-    # Gets the name of player 2 from player 2.
-    playerTwoName = inputPlayerName(2)
-    
-    print("\nSir Gregos IV: \"Great to meet you too, " + playerTwoName + ", sorry it's under such awful circumstances...\"\n")
-    time.sleep(3)
-    print("Sir Gregos IV: \"I killed these fiends earlier, here take these, you'll need them\"\n")
-    time.sleep(3)
-    print("Sir Gregos reaches down and grabs 2 swords from dead skeletons he slayed earlier\n")
-    time.sleep(4)
-    print("Sir Gregos IV: \"Now go, make your way through these dungeons and do whatever it takes to reach Lansgard and get reinforcements\"\n")
-    time.sleep(3)
-    print("Sir Gregos IV: \"" + playerOneName + ", " + playerTwoName + ", I\'m counting on you\"\n")
-    time.sleep(3)
-    print("Sir Gregos IV hurries you through the door to the next room\n")
-    time.sleep(4)
-    print("Sir Gregos IV: \"Good luck friends\"\n")
-    time.sleep(3)
-    print("The door is sealed behind you as you take your first glimpse of the room...\n")
-    
-    # Constructs the players from the data given by the user.
-    constructPlayers(playerOneName, playerTwoName)
 
 # Summary:
 #   Function to handle the input of the player names. Adds reusability, maintenance and data validation.
 def inputPlayerName(_playerNumber):
     _playerInputSuccess = False
     while _playerInputSuccess == False:
-        _playerName = input("Player " + str(_playerNumber) + ": \"My name is: ")
+        _playerName = input("Player " + str(_playerNumber) + ", please enter your name: ")
         time.sleep(2)
         if len(_playerName) <= 20 and len(_playerName) > 0:
             return _playerName
             _playerInputSuccess = True
         elif len(_playerName) <= 0:
-            print("\nSir Gregos IV: \"Speak up boy, we've no time for this\"")
+            print("This name is too short!")
         else:
-            print("\nSir Gregos IV: \"Hmm, that's a long name. Do you have a nickname? Perhaps one with less than 20 letters?\"")
+            print("Do you have a nickname? Perhaps one with less than 20 letters?\"")
     
-# Summary:
-#   Function that constructs the players from the names given.
-def constructPlayers(_playerOneName, _playerTwoName):
-    
-    level = 1
-    healthPoints = 50
-    manaPoints = 50
-    experience = 1
-    defence = 0
-    inventory = InventoryClass.Inventory()
-    armourSet = ArmourSetClass.ArmourSet("Basic Armour", 0, 10)
-    equippedWeapon = WeaponClass.Weapon("Basic Sword", 0, 25, 0)
-    gold = 50
-    
-    player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
-    player2 = CharacterClass.Character(_playerTwoName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
-
 # Summary:
 #   Constructs the dungeonRoom. This can be removed and replaced with a normal construction if we no longer print the construction info.
 def constructDungeonRoom():
     # Create dungeonRoom with random values
+    global dungeonRoom1
     dungeonRoom1 = DungeonRoomClass.dungeonRoom()
-    dungeonRoom1.printDungeonRoomInfo()
     
 def UserInput():
     # Summary: get user input, and return all lower case
@@ -148,7 +63,8 @@ def UserInput():
 
 def SplitInput(funcInput):
     # Summary: split input string into seperate words, return array of words
-    split = funcInput.split() #returns an array
+    split = funcInput.split(" ", 1) #returns an array
+    print(str(split))
     return split
 
 def CheckAction(funcInput):
@@ -161,7 +77,7 @@ def CheckAction(funcInput):
     accepted = False #@ accepted -> overall control variable for if the whole command is acceptable
     enemyID = ""     #@ enemyID -> string variable to store enemy name
     commandID = ""   #@ commandID -> string variable to store command name
-
+    
     try:
         commandID = funcInput[0]
     except:
@@ -171,35 +87,80 @@ def CheckAction(funcInput):
         for i in range (0, len(acceptableAnswers)):
             if (funcInput[0] == acceptableAnswers[i]):
                 accepted = True
-
+        # if the command is move, check that enemies are dead and chest has been opened.
+        if(commandID == "move"):
+            # Check if enemies are alive.
+            aliveCount = 0
+            for enemy in dungeonRoom1.enemyList:
+                if enemy.isAlive == True:
+                    print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
+                    aliveCount += 1
+                    accepted = True
+                    break
+                    # Get out of if statement                
+                
+            if aliveCount == 0:
+                # Check if chest is available to open
+                if dungeonRoom1.hasChest == True:
+                    userInput = input("This room has chest that you can open. Would you still like to proceed in changing rooms?\n")
+                    userInput.lower()
+                    
+                    exitCondition = False
+                    leaveRoom = False
+                    
+                    # Get confirmation of room exit
+                    while exitCondition == False:
+                        if userInput == "no":
+                            print("\nYou turn away from the door, looking back into the room")
+                            exitCondition = True
+                            leaveRoom = False
+                        elif userInput == "yes":
+                            print("\nYou open the door and enter the next room")
+                            exitCondition = True
+                            leaveRoom = True
+                        
+                    if leaveRoom == True:
+                        dungeonRoom1.regenRandomDungeonRoom()
+                        
+                accepted = True                    
+                
         # if the command is hit, check that the enemy exists
-        if (commandID == "hit"):
+        elif (commandID == "hit"):
             # check that there is an enemy to hit
             try:
                 enemyID = funcInput[1]
             except:
-                print("You need to say what you are hitting!")
+                print("You need to type the name of the enemy you are hitting!")
             else:
-                for i in range (0, len(dungeonEnemies)):
-                # word 2 is the enemy identifier
-                    if (enemyID == dungeonEnemies[i]):
-                        acc_enemy = True
+                for i in range (0, len(dungeonRoom1.enemyList)):
+                    # word 2 is the enemy identifier
+                    if acc_enemy == False:
+                        if (enemyID == dungeonRoom1.enemyList[i].name.lower()):
+                            player1.attack(dungeonRoom1.enemyList[i])
+                            dungeonRoom1.printEnemyListInfo()
+                            acc_enemy = True
 
             # if the enemy does not exist, the command is invalid
             if (acc_enemy == False):
                 accepted = False
-
+                
+        elif(commandID == "open"):
+            print("Selected Action: Open - Currently not implemented.")
+            accepted == True
+        elif (commandID == "inventory"):
+            print("Selected Action: Inventory - Currently not implemented.")
+            accepted == True
     return accepted
 
 def tutorialText():
-    print("In this game, you control your player by typing in a command")
-    print("Commands are not case sensitive, however, any misspelling will require you to retype the command")
-    print("The core commands are:")
-    print("'move' - this will move you to the next room, provided there are no alive enemies in your current room")
-    print("'open' - this will open the chest in your present room, if there is an unopened chest")
-    print("'inventory' - this will show you the items in your inventory (you can hold 10 items in your inventory at any time)")
-    print("'hit [enemyName] - this will get your character to you their equipped weapon to hit the enemy name you type in")
-    print("Good luck traveller!")
+    print("\nIn this game, you control your player by typing in a command.")
+    print("\nCommands are not case sensitive, however, any misspelling will require you to retype the command.")
+    print("\nThe core commands are:")
+    print("    'move' - This will move you to the next room, provided there are no enemies alive in your current room.")
+    print("    'open' - This will open the chest in your current room, if there is an unopened chest.")
+    print("    'inventory' - This will show you the items in your inventory (you can hold 10 items in your inventory at any time).")
+    print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
+    print("\nGood luck traveller!")
     
 def playerTurnCommand(_inputTutorialFlag):
     # Summary: Get user input, evaluate, loop if the input is not an acceptable command
@@ -207,15 +168,34 @@ def playerTurnCommand(_inputTutorialFlag):
     actionAccepted = False  #@ actionAccepted -> loop control variable
     while (actionAccepted == False):
         if _inputTutorialFlag == False:
-            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+            tutorialText()
             #make instructions never print again.
             _inputTutorialFlag = True
         userinput = UserInput()                     #@ userinput -> initial user input as a string
         splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
         actionAccepted = CheckAction(splitInput)
-
+        
         if (actionAccepted == False):
-
             print("That was an incorrect command, try again")
-constructDungeonRoom()
-    
+            playerTurnCommand(_inputTutorialFlag)
+
+# Show the title screen.
+titleScreen()
+
+# Wait for user to input a key.
+userInput = input()
+
+# Clear the terminal screen.
+clearTerminal()
+
+# Get the player names from user.
+playerOneName = inputPlayerName(1)
+playerTwoName = inputPlayerName(2)
+
+# Construct the Character objects with the players names.
+player1 = CharacterClass.Character(playerOneName)
+player2 = CharacterClass.Character(playerTwoName)
+
+clearTerminal()
+
+main()
