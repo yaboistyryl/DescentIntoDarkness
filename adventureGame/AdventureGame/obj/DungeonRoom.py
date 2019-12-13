@@ -168,7 +168,7 @@ class dungeonRoom:
     @staticmethod
     def generateRandomEnemy():
         
-        randEnemy = EnemyClass.Enemy(30, True)
+        randEnemy = EnemyClass.Enemy(2, True)
         
         return randEnemy
     
@@ -245,13 +245,19 @@ class dungeonRoom:
         return duplicateCheck
     
     # Summary:
+    #   Prints the enemies information.         
+    def printEnemyListInfo(self):
+        for i in range(len(self.enemyList)):
+            if self.enemyList[i].isAlive == True:
+                self.enemyList[i].printEnemyInfo()
+    
+    # Summary:
     #   Prints all the information about the instance of the dungeonRoom.
     def printDungeonRoomInfo(self):
-        print("\nYou enter a new mysterious " + self.name + "...")
-        print("You immediately see " + str(len(self.enemyList)) + " enemies,")
-        for i in range(len(self.enemyList)):
-            self.enemyList[i].printEnemyInfo()
+        print("\nYou enter a new mysterious " + self.name + ".")
         if self.hasChest == True:
-            print("you also notice that there is a chest in the corner of the room.")
+            print("You notice that there is a chest in the corner of the room.")
         elif self.hasChest == False:
-            print("there is no chest to be seen.")
+            print("There is no chest to be seen.")
+        print("You also see " + str(len(self.enemyList)) + " enemies.")
+        self.printEnemyListInfo()

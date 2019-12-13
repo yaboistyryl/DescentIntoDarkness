@@ -47,7 +47,11 @@ class Enemy:
     # @Param:
     #   int _healthPoints - The amount of health points the enemy has.
     def setHealthPoints(self, _healthPoints):
+        
         if type(_healthPoints) is int:
+            # Make enemy die if healthpoints get below 0
+            if _healthPoints <= 0:
+                self.setIsAlive(False)
             self.healthPoints = _healthPoints
         else:
             raise TypeError("Enemy healthPoints expected a int. Received: " + str(type(_healthPoints)) + " Check the type.")
@@ -61,6 +65,10 @@ class Enemy:
             self.isAlive = _isAlive
         else:
             raise TypeError("Enemy isAlive expected a bool. Received: " + str(type(_isAlive)) + " Check the type.")
+        
+        if self.isAlive == False:
+            print("\n" + self.name + " has been slain!")
+            
         
     # Summary:
     #   Sets the equipped weapon of the enemy
@@ -100,12 +108,13 @@ class Enemy:
     #   Sets the health points from the player's current level. Player Health Points = player level x 10. 
     def setHealthPointsFromLevel(self):
         self.setHealthPoints(self.level * 10)
-      
+    
     # Summary:
     #   Prints the attributes assigned to the instance of enemy.
     def printEnemyInfo(self):
-        print("\nConstructing Enemy...\n")
-        print("Name: " + self.name)
-        print("Level: " + str(self.level))
-        print("Health Points: " + str(self.healthPoints))
-        print("is Alive: " + str(self.isAlive))
+        vowels = ('a','e','i','o','u')
+        # Ensure that the string is outputted grammatically.
+        if self.name.startswith(vowels):
+            print("\nYou see an " + self.name + ". It looks to be level " + str(self.level) + ". It has " + str(self.healthPoints) + " health remaining!")
+        else:
+            print("\nYou see a " + self.name + ". It looks to be level " + str(self.level) + ". It has " + str(self.healthPoints) + " health remaining!")

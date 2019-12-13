@@ -10,6 +10,7 @@ TO DO:
 from obj import Inventory as InventoryClass
 from obj import Weapon as WeaponClass
 from obj import ArmourSet as ArmourSetClass
+from obj import Enemy as EnemyClass
 
 debug = False
 
@@ -30,19 +31,23 @@ class Character:
     #   obj WeaponClass _equippedWeapon - The equipped weapon of the character.
     #   obj ArmourSetClass _armourSet - The armour set the character has equipped.
     #   int _gold - The amount of gold the character has.
-    def __init__(self, _name, _level, _healthPoints, _manaPoints, _experience, _defence, _inventory, _equippedWeapon, _armourSet, _gold):
-
+    def __init__(self, _name):
+        
+        # Create random instance of weapon 
+        equippedWeapon = WeaponClass.Weapon()
+        # Generate starting weapon.
+        equippedWeapon.generateStartingWeapon()
+        
         # Setup attributes
         self.setName(_name)
-        self.setLevel(_level)
-        self.setHealthPoints(_healthPoints)
-        self.setManaPoints(_manaPoints)
-        self.setExperience(_experience)
-        self.setDefence(_defence)
-        self.setInventory(_inventory)
-        self.setEquippedWeapon(_equippedWeapon)
-        self.setArmourSet(_armourSet)
-        self.setGold(_gold)
+        self.setLevel(1)
+        self.setHealthPoints(50)
+        self.setExperience(1)
+        self.setDefence(0)
+        self.setInventory(InventoryClass.Inventory())
+        self.setEquippedWeapon(equippedWeapon)
+        self.setArmourSet(ArmourSetClass.ArmourSet("Basic Armour", 0, 10))
+        self.setGold(50)
             
         # If in debug mode, print values to console
         if debug == True:
@@ -78,15 +83,6 @@ class Character:
             self.healthPoints = _healthPoints
         else:
             raise TypeError("Character health points expected an int. Received: " + str(type(_healthPoints)) + " Check the type")
-            
-    # Potential removal, not updating.
-    # Summary:
-    #   Sets the total amount of mana (magical) points for the character.      
-    def setManaPoints(self, _manaPoints):
-        if type(_manaPoints) is int:
-            self.manaPoints = _manaPoints
-        else:
-            raise TypeError("Character mana points expected an int. Received: " + str(type(_manaPoints)) + " Check the type")
     
     # Summary:
     #   Sets the total amount of experience points. Should directly relate to level.
@@ -148,9 +144,17 @@ class Character:
         else:
             raise TypeError("Character gold expected an int. Received: " + str(type(_gold)) + " Check the type")
     
+    def attack(self, _target):
+        if isinstance(_target, EnemyClass.Enemy):
+            print(self.name + " attacked " + _target.name + " for " + str(self.equippedWeapon.damage) + " damage!")
+            _target.setHealthPoints(_target.healthPoints - self.equippedWeapon.damage)
+        else:
+            raise Exception("Target is not an enemy!")
+    
     # Summary:
     #   Prints the the attributes of the character.
     def printCharacterInfo(self):
+        print("\n")
         print("Name: " + self.name)
         print("Level: " + str(self.level))
         print("Health Points: " + str(self.healthPoints))
@@ -159,4 +163,4 @@ class Character:
         print("Defence: " + str(self.defence))
         print("Inventory: " + str(self.inventory))
         print("Equipped Weapon: " + str(self.equippedWeapon))
-        print("Armour Set: " + str(self.armourSet)) 
+        print("Armour Set: " + str(self.armourSet))
