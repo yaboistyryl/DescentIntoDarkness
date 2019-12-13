@@ -56,6 +56,12 @@ class Weapon:
         else:
             raise TypeError("Weapon defence expected an int. Received: " + str(type(_defence)) + " Check the type")
     
+    def generateStartingWeapon(self):
+        self.setName("Common Sword")
+        self.setDamage(10)
+        self.setDefence(1)
+        self.setValue(1)
+    
     # Summary:
     #   Generates a weapon with a random name, value, damage and defence.
     def generateRandomWeapon(self):

@@ -20,6 +20,7 @@ dungeonEnemies = ["skeleton", "goblin", "kobold", "zombie"] #for the time being
 def main():
     # Show the title screen.
     titleScreen()
+    inputTutorialFlag = False
     
     # Wait for user to input a key.
     userInput = input()
@@ -40,9 +41,7 @@ def main():
     
     # Create random dungeonRoom.
     constructDungeonRoom()
-    
-    tutorialText()
-    playerTurnCommand()
+    playerTurnCommand(inputTutorialFlag)
     
 # Summary:
 #   Prints the initial title screen at the start of the game.     
@@ -128,7 +127,8 @@ def constructPlayers(_playerOneName, _playerTwoName):
     defence = 0
     inventory = InventoryClass.Inventory()
     armourSet = ArmourSetClass.ArmourSet("Basic Armour", 0, 10)
-    equippedWeapon = WeaponClass.Weapon("Basic Sword", 0, 25, 0)
+    equippedWeapon = WeaponClass.Weapon()
+    equippedWeapon.generateStartingWeapon()
     gold = 50
     
     player1 = CharacterClass.Character(_playerOneName, level, healthPoints, manaPoints, experience, defence, inventory, equippedWeapon, armourSet, gold)
@@ -138,6 +138,7 @@ def constructPlayers(_playerOneName, _playerTwoName):
 #   Constructs the dungeonRoom. This can be removed and replaced with a normal construction if we no longer print the construction info.
 def constructDungeonRoom():
     # Create dungeonRoom with random values
+    global dungeonRoom1
     dungeonRoom1 = DungeonRoomClass.dungeonRoom()
     dungeonRoom1.printDungeonRoomInfo()
     
@@ -148,7 +149,8 @@ def UserInput():
 
 def SplitInput(funcInput):
     # Summary: split input string into seperate words, return array of words
-    split = funcInput.split() #returns an array
+    split = funcInput.split(" ", 1) #returns an array
+    print(str(split))
     return split
 
 def CheckAction(funcInput):
@@ -161,7 +163,7 @@ def CheckAction(funcInput):
     accepted = False #@ accepted -> overall control variable for if the whole command is acceptable
     enemyID = ""     #@ enemyID -> string variable to store enemy name
     commandID = ""   #@ commandID -> string variable to store command name
-
+    
     try:
         commandID = funcInput[0]
     except:
@@ -178,12 +180,14 @@ def CheckAction(funcInput):
             try:
                 enemyID = funcInput[1]
             except:
-                print("You need to say what you are hitting!")
+                print("You need to type the name of the enemy you are hitting!")
             else:
-                for i in range (0, len(dungeonEnemies)):
-                # word 2 is the enemy identifier
-                    if (enemyID == dungeonEnemies[i]):
-                        acc_enemy = True
+                for i in range (0, len(dungeonRoom1.enemyList)):
+                    # word 2 is the enemy identifier
+                    if acc_enemy == False:
+                        if (enemyID == dungeonRoom1.enemyList[i].name):
+                            acc_enemy = True
+                            # Put enemy damaging mechanic here
 
             # if the enemy does not exist, the command is invalid
             if (acc_enemy == False):
@@ -192,14 +196,14 @@ def CheckAction(funcInput):
     return accepted
 
 def tutorialText():
-    print("In this game, you control your player by typing in a command")
-    print("Commands are not case sensitive, however, any misspelling will require you to retype the command")
-    print("The core commands are:")
-    print("'move' - this will move you to the next room, provided there are no alive enemies in your current room")
-    print("'open' - this will open the chest in your present room, if there is an unopened chest")
-    print("'inventory' - this will show you the items in your inventory (you can hold 10 items in your inventory at any time)")
-    print("'hit [enemyName] - this will get your character to you their equipped weapon to hit the enemy name you type in")
-    print("Good luck traveller!")
+    print("\nIn this game, you control your player by typing in a command.")
+    print("\nCommands are not case sensitive, however, any misspelling will require you to retype the command.")
+    print("\nThe core commands are:")
+    print("    'move' - This will move you to the next room, provided there are no enemies alive in your current room.")
+    print("    'open' - This will open the chest in your current room, if there is an unopened chest.")
+    print("    'inventory' - This will show you the items in your inventory (you can hold 10 items in your inventory at any time).")
+    print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
+    print("\nGood luck traveller!")
     
 def playerTurnCommand(_inputTutorialFlag):
     # Summary: Get user input, evaluate, loop if the input is not an acceptable command
@@ -207,7 +211,7 @@ def playerTurnCommand(_inputTutorialFlag):
     actionAccepted = False  #@ actionAccepted -> loop control variable
     while (actionAccepted == False):
         if _inputTutorialFlag == False:
-            print("What do you wish to do? you can either: 'move', 'open' a chest, check 'inventory' or 'hit [enemy name]'")
+            tutorialText()
             #make instructions never print again.
             _inputTutorialFlag = True
         userinput = UserInput()                     #@ userinput -> initial user input as a string
@@ -215,7 +219,7 @@ def playerTurnCommand(_inputTutorialFlag):
         actionAccepted = CheckAction(splitInput)
 
         if (actionAccepted == False):
-
             print("That was an incorrect command, try again")
-constructDungeonRoom()
-    
+            playerTurnCommand(_inputTutorialFlag)
+            
+main()
