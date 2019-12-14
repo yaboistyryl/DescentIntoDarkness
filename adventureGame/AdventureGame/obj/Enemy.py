@@ -118,3 +118,5 @@ class Enemy:
             print("\nYou see an " + self.name + ". It looks to be level " + str(self.level) + ". It has " + str(self.healthPoints) + " health remaining!")
         else:
             print("\nYou see a " + self.name + ". It looks to be level " + str(self.level) + ". It has " + str(self.healthPoints) + " health remaining!")
+    
+    
