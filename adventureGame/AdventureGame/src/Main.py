@@ -15,8 +15,6 @@ acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
 def main():
     playersAreAlive = True
     
-    tutorialText()
-    
     # Create random dungeonRoom.
     constructDungeonRoom()
     
@@ -80,6 +78,7 @@ def SplitInput(funcInput):
     return split
 
 def CheckAction_p1(funcInput):
+    print("check action p1")
     # Summary: check that the command is valid
     # This is done by splitting the command into two chunks, command word and target
     # It will check command word first, then object dependant on the command
@@ -107,34 +106,12 @@ def CheckAction_p1(funcInput):
                 if enemy.isAlive == True:
                     print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
                     aliveCount += 1
-                    accepted = True
-                    break
+                    accepted = False
                     # Get out of if statement                
-                
-            if aliveCount == 0:
-                # Check if chest is available to open
-                if dungeonRoom1.hasChest == True:
-                    userInput = input("This room has chest that you can open. Would you still like to proceed in changing rooms?\n")
-                    userInput.lower()
                     
-                    exitCondition = False
-                    leaveRoom = False
-                    
-                    # Get confirmation of room exit
-                    while exitCondition == False:
-                        if userInput == "no":
-                            print("\nYou turn away from the door, looking back into the room")
-                            exitCondition = True
-                            leaveRoom = False
-                        elif userInput == "yes":
-                            print("\nYou open the door and enter the next room")
-                            exitCondition = True
-                            leaveRoom = True
-                        
-                    if leaveRoom == True:
-                        dungeonRoom1.regenRandomDungeonRoom()
-                        
-                accepted = True                    
+                else:
+                    dungeonRoom1.regenRandomDungeonRoom()
+                    accepted = True                    
                 
         # if the command is hit, check that the enemy exists
         elif (commandID == "hit"):
@@ -165,6 +142,7 @@ def CheckAction_p1(funcInput):
     return accepted
 
 def CheckAction_p2(funcInput):
+    print("check action p2")
     # Summary: check that the command is valid
     # This is done by splitting the command into two chunks, command word and target
     # It will check command word first, then object dependant on the command
@@ -192,34 +170,13 @@ def CheckAction_p2(funcInput):
                 if enemy.isAlive == True:
                     print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
                     aliveCount += 1
-                    accepted = True
+                    accepted = False
                     break
                     # Get out of if statement                
                 
-            if aliveCount == 0:
-                # Check if chest is available to open
-                if dungeonRoom1.hasChest == True:
-                    userInput = input("This room has chest that you can open. Would you still like to proceed in changing rooms?\n")
-                    userInput.lower()
-                    
-                    exitCondition = False
-                    leaveRoom = False
-                    
-                    # Get confirmation of room exit
-                    while exitCondition == False:
-                        if userInput == "no":
-                            print("\nYou turn away from the door, looking back into the room")
-                            exitCondition = True
-                            leaveRoom = False
-                        elif userInput == "yes":
-                            print("\nYou open the door and enter the next room")
-                            exitCondition = True
-                            leaveRoom = True
-                        
-                    if leaveRoom == True:
-                        dungeonRoom1.regenRandomDungeonRoom()
-                        
-                accepted = True                    
+                else:
+                    dungeonRoom1.regenRandomDungeonRoom()
+                    accepted = True            
                 
         # if the command is hit, check that the enemy exists
         elif (commandID == "hit"):
@@ -248,16 +205,6 @@ def CheckAction_p2(funcInput):
             print("Selected Action: Inventory - Currently not implemented.")
             accepted == True
     return accepted
-
-def tutorialText():
-    print("\nIn this game, you control your player by typing in a command.")
-    print("\nCommands are not case sensitive, however, any misspelling will require you to retype the command.")
-    print("\nThe core commands are:")
-    print("    'move' - This will move you to the next room, provided there are no enemies alive in your current room.")
-    print("    'open' - This will open the chest in your current room, if there is an unopened chest.")
-    print("    'inventory' - This will show you the items in your inventory (you can hold 10 items in your inventory at any time).")
-    print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
-    print("\nGood luck traveller!")
     
 def playerTurnCommand():
     # Summary: Get user input, evaluate, loop if the input is not an acceptable command
@@ -307,7 +254,20 @@ def enemyTurn():
 def attack(enemy, target):
     print(enemy.name + " attacked " + target.name + " for " + str(enemy.equippedWeapon.damage) + " damage!")
     target.setHealthPoints(target.healthPoints - enemy.equippedWeapon.damage)
-            
+
+
+def tutorialText():
+    print("\nIn this game, you control your player by typing in a command.")
+    print("\nCommands are not case sensitive, however, any misspelling will require you to retype the command.")
+    print("\nThe core commands are:")
+    print("    'move' - This will move you to the next room, provided there are no enemies alive in your current room.")
+    print("    'open' - This will open the chest in your current room, if there is an unopened chest.")
+    print("    'inventory' - This will show you the items in your inventory (you can hold 10 items in your inventory at any time).")
+    print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
+    print("\nGood luck traveller!")
+    
+
+     
 # Show the title screen.
 titleScreen()
 
@@ -320,6 +280,8 @@ clearTerminal()
 # Get the player names from user.
 playerOneName = inputPlayerName(1)
 playerTwoName = inputPlayerName(2)
+
+tutorialText()
 
 # Construct the Character objects with the players names.
 player1 = CharacterClass.Character(playerOneName)
