@@ -8,8 +8,6 @@ from obj import Character as CharacterClass
 from obj import DungeonRoom as DungeonRoomClass
 from obj import TerminalCommands as TerminalCommandsClass
 
-player1DeathPrint = False
-player2DeathPrint = False
 acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
 
 # Summary:
@@ -20,19 +18,48 @@ def main():
     # Create random dungeonRoom.
     constructDungeonRoom()
     
-    while(playersAreAlive == True):
+    while playersAreAlive == True:
         # Player Turn
         playerTurnCommand()
         
         # enemy turn
         enemyTurn()
         
-        arePlayersDead(player1DeathPrint, player2DeathPrint)
-        
-        if (player1.healthPoints <= 0) and (player2.healthPoints <= 0):
+        if player1.isAlive == False and player2.isAlive == False:
             playersAreAlive = False
             print("Your Party have succumbed to the darkness")
-   
+        
+        else:
+            clearTerminal()
+            print("=== A new turn is upon thee! ===")
+            print("\nThe Heroes!")
+            if (player1.isAlive == True):
+                print(player1.name + " has " + str(player1.healthPoints) + " healthpoints remaining!")
+            else:
+                print(player1.name + " has fallen")
+            
+            if (player2.isAlive == True):
+                print(player2.name + " has " + str(player2.healthPoints) + " healthpoints remaining!")
+            else:
+                print(player2.name + " has fallen")
+            
+            print("\nThe Enemies!")
+            zeroEnemies = True
+            for enemy in dungeonRoom1.enemyList:
+                zeroEnemies = False
+                if enemy.isAlive == True:
+                    print("The " + enemy.name + " has " + str(enemy.healthPoints) + " healthpoints remaining!")
+                else:
+                    print(enemy.name + " lies dead and twitching on the floor")
+            
+            if zeroEnemies == True:
+                print("The room has no enemies, prehaps your intimiadating names of " + player1.name + " and " + player2.name + " scared them away!")
+
+            if dungeonRoom1.hasChest:
+                print("\nThis room has a chest")
+    
+    print("Thank you for playing the Descent into Darkness!")
+    
 # Summary:
 #   Clears the terminal screen by outputting 50 new lines.
 def clearTerminal():
@@ -78,25 +105,20 @@ def UserInput():
 def SplitInput(funcInput):
     # Summary: split input string into seperate words, return array of words
     split = funcInput.split(" ", 1) #returns an array
-    print(str(split))
     return split
 
 def CheckAction_p1(funcInput):
-    print("check action p1")
     # Summary: check that the command is valid
     # This is done by splitting the command into two chunks, command word and target
     # It will check command word first, then object dependant on the command
-    # ["walk", "hit", "inventory", "open"] -> command words that are accepted
-    # ["skeleton", "goblin", "kobold", "zombie"] -> objects that are accepted
     acc_enemy = False #@ acc_enemy -> acceptable enemy - control variable for if the enemy is acceptable
     accepted = False #@ accepted -> overall control variable for if the whole command is acceptable
     enemyID = ""     #@ enemyID -> string variable to store enemy name
     commandID = ""   #@ commandID -> string variable to store command name
-    
     try:
         commandID = funcInput[0]
     except:
-        print("You havent typed in a command!")
+        print("You haven't typed in a command!")
     else:
         # check that the command word (word 1) is in the list of commands
         for i in range (0, len(acceptableAnswers)):
@@ -106,7 +128,9 @@ def CheckAction_p1(funcInput):
         if(commandID == "move"):
             # Check if enemies are alive.
             aliveCount = 0
+            zeroEnemies = True
             for enemy in dungeonRoom1.enemyList:
+                zeroEnemies = False
                 if enemy.isAlive == True:
                     print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
                     aliveCount += 1
@@ -116,7 +140,11 @@ def CheckAction_p1(funcInput):
                 else:
                     dungeonRoom1.regenRandomDungeonRoom()
                     accepted = True                    
-                
+        
+            if zeroEnemies == True:
+                dungeonRoom1.regenRandomDungeonRoom()
+                accepted = True 
+        
         # if the command is hit, check that the enemy exists
         elif (commandID == "hit"):
             # check that there is an enemy to hit
@@ -130,7 +158,6 @@ def CheckAction_p1(funcInput):
                     if acc_enemy == False:
                         if (enemyID == dungeonRoom1.enemyList[i].name.lower()):
                             player1.attack(dungeonRoom1.enemyList[i])
-                            dungeonRoom1.printEnemyListInfo()
                             acc_enemy = True
 
             # if the enemy does not exist, the command is invalid
@@ -146,7 +173,6 @@ def CheckAction_p1(funcInput):
     return accepted
 
 def CheckAction_p2(funcInput):
-    print("check action p2")
     # Summary: check that the command is valid
     # This is done by splitting the command into two chunks, command word and target
     # It will check command word first, then object dependant on the command
@@ -160,7 +186,7 @@ def CheckAction_p2(funcInput):
     try:
         commandID = funcInput[0]
     except:
-        print("You havent typed in a command!")
+        print("You haven't typed in a command!")
     else:
         # check that the command word (word 1) is in the list of commands
         for i in range (0, len(acceptableAnswers)):
@@ -170,6 +196,7 @@ def CheckAction_p2(funcInput):
         if(commandID == "move"):
             # Check if enemies are alive.
             aliveCount = 0
+            zeroEnemies = False
             for enemy in dungeonRoom1.enemyList:
                 if enemy.isAlive == True:
                     print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
@@ -180,7 +207,11 @@ def CheckAction_p2(funcInput):
                 
                 else:
                     dungeonRoom1.regenRandomDungeonRoom()
-                    accepted = True            
+                    accepted = True    
+                    
+            if zeroEnemies == True:
+                dungeonRoom1.regenRandomDungeonRoom()
+                accepted = True
                 
         # if the command is hit, check that the enemy exists
         elif (commandID == "hit"):
@@ -195,7 +226,6 @@ def CheckAction_p2(funcInput):
                     if acc_enemy == False:
                         if (enemyID == dungeonRoom1.enemyList[i].name.lower()):
                             player2.attack(dungeonRoom1.enemyList[i])
-                            dungeonRoom1.printEnemyListInfo()
                             acc_enemy = True
 
             # if the enemy does not exist, the command is invalid
@@ -215,7 +245,7 @@ def playerTurnCommand():
     # Do not allow the turn to run unless the command is correct
     actionAccepted = False  #@ actionAccepted -> loop control variable
     while (actionAccepted == False):
-        if(player1.healthPoints > 0):
+        if(player1.isAlive == True):
             print (player1.name + "! It is your turn!")
             userinput = UserInput()                     #@ userinput -> initial user input as a string
             splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
@@ -227,7 +257,7 @@ def playerTurnCommand():
 
     actionAccepted = False #reset
     while (actionAccepted == False):
-        if(player2.healthPoints > 0):
+        if(player2.isAlive == True):
             print (player2.name + "! It is your turn!")
             userinput = UserInput()                     #@ userinput -> initial user input as a string
             splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
@@ -258,11 +288,14 @@ def enemyTurn():
                 print(enemy.name + "Stares at the lifeless bodies of " + player1.name + " and " + player2.name)
             else:
                 attack(enemy, victim)
+        else:
+            print(enemy.name + " lies dead and twitching on the floor")
 
-def attack(enemy, target):
+def attack(enemy, target): #enemy to character
     print(enemy.name + " attacked " + target.name + " for " + str(enemy.equippedWeapon.damage) + " damage!")
-    print(target.name + " has " + target.healthPoints + " healthpoints remaining!")
     target.setHealthPoints(target.healthPoints - enemy.equippedWeapon.damage)
+    if (target.isAlive == True):
+        print(target.name + " has " + str(target.healthPoints) + " healthpoints remaining!")
 
 
 def tutorialText():
@@ -275,15 +308,6 @@ def tutorialText():
     print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
     print("\nGood luck traveller!")
     
-def arePlayersDead(player1DeathPrint, player2DeathPrint):
-    if (player1.healthPoints > 0) and (player1DeathPrint == False):
-        print(player1.name + " has been killed by the monsters of darkness")
-        player1DeathPrint = True
-        
-    elif (player2.healthPoints > 0) and (player2DeathPrint == False):
-        print(player2.name + " has been killed by the monsters of darkness")
-        player2DeathPrint = True
-
 # Show the title screen.
 titleScreen()
 
