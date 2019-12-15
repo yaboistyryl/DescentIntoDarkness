@@ -9,7 +9,7 @@
 #   self is used to assign attributes. introducation is a property we want, so we assign it to self.introduction because
 #   when called, it will be obj introduction.introduction and it will return "".
 
-class Introduction:
+class TerminalCommands:
     # Summary:
     #   Constructor
     def __init__(self):

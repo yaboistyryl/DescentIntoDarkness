@@ -6,8 +6,10 @@ import time
 import random
 from obj import Character as CharacterClass
 from obj import DungeonRoom as DungeonRoomClass
+from obj import TerminalCommands as TerminalCommandsClass
 
-
+player1DeathPrint = False
+player2DeathPrint = False
 acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
 
 # Summary:
@@ -24,6 +26,8 @@ def main():
         
         # enemy turn
         enemyTurn()
+        
+        arePlayersDead(player1DeathPrint, player2DeathPrint)
         
         if (player1.healthPoints <= 0) and (player2.healthPoints <= 0):
             playersAreAlive = False
@@ -244,15 +248,20 @@ def chooseVictim():
         return player1
     else:
         print("Both characters are dead")
+        return "don't attack"
 
 def enemyTurn():
     for enemy in dungeonRoom1.enemyList:
         if enemy.isAlive == True:
             victim = chooseVictim()
-            attack(enemy, victim)
+            if (victim == "don't attack"):
+                print(enemy.name + "Stares at the lifeless bodies of " + player1.name + " and " + player2.name)
+            else:
+                attack(enemy, victim)
 
 def attack(enemy, target):
     print(enemy.name + " attacked " + target.name + " for " + str(enemy.equippedWeapon.damage) + " damage!")
+    print(target.name + " has " + target.healthPoints + " healthpoints remaining!")
     target.setHealthPoints(target.healthPoints - enemy.equippedWeapon.damage)
 
 
@@ -266,8 +275,15 @@ def tutorialText():
     print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
     print("\nGood luck traveller!")
     
+def arePlayersDead(player1DeathPrint, player2DeathPrint):
+    if (player1.healthPoints > 0) and (player1DeathPrint == False):
+        print(player1.name + " has been killed by the monsters of darkness")
+        player1DeathPrint = True
+        
+    elif (player2.healthPoints > 0) and (player2DeathPrint == False):
+        print(player2.name + " has been killed by the monsters of darkness")
+        player2DeathPrint = True
 
-     
 # Show the title screen.
 titleScreen()
 
