@@ -169,15 +169,11 @@ def CheckAction_p1(funcInput):
                         accepted = False
                         # Get out of if statement
                         
-                    else:
-                        player1.gold += dungeonRoom1.givePlayerGold()
-                        print("\n" + player1.name + " now has " + str(player1.gold) + " gold!")
-                        accepted = True
-                        
                 if zeroEnemies == True:
                     player1.gold += dungeonRoom1.givePlayerGold()
                     print("\n" + player1.name + " now has " + str(player1.gold) + " gold!")
                     accepted = True
+                        
             else:
                 print("\nThere is no chest in this room!")
             accepted == True
@@ -256,11 +252,6 @@ def CheckAction_p2(funcInput):
                     aliveCount += 1
                     accepted = False
                     # Get out of if statement
-                    
-                else:
-                    player2.gold += dungeonRoom1.givePlayerGold()
-                    print("\n" + player2.name + " now has " + str(player2.gold) + " gold!")
-                    accepted = True
                     
             if zeroEnemies == True:
                 player2.gold += dungeonRoom1.givePlayerGold()
