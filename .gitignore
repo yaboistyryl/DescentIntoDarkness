@@ -52,3 +52,5 @@ adventureGame/AdventureGame/test/__pycache__/test_Weapon.cpython-37-pytest-5.2.3
 adventureGame/AdventureGame/obj/__pycache__/
 
 *.pyc
+
+*.ini

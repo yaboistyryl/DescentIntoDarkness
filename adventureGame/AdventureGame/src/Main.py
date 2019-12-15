@@ -1,7 +1,3 @@
-"""
-@author: Reece Draper; Alex Downing; Ayman Choudhery
-"""
-
 import time
 import random
 from obj import Character as CharacterClass
@@ -27,7 +23,7 @@ def main():
         
         if player1.isAlive == False and player2.isAlive == False:
             playersAreAlive = False
-            print("Your Party have succumbed to the darkness")
+            print("Your party have succumbed to the darkness")
         
         else:
             clearTerminal()
@@ -246,7 +242,7 @@ def playerTurnCommand():
     actionAccepted = False  #@ actionAccepted -> loop control variable
     while (actionAccepted == False):
         if(player1.isAlive == True):
-            print (player1.name + "! It is your turn!")
+            print ("\n" + player1.name + "! It is your turn!")
             userinput = UserInput()                     #@ userinput -> initial user input as a string
             splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
             actionAccepted = CheckAction_p1(splitInput)
@@ -254,11 +250,14 @@ def playerTurnCommand():
             if (actionAccepted == False):
                 print("That was an incorrect command, try again")
                 playerTurnCommand()
+        else:
+            print(player1.name + " can't take their turn because they are dead!")
+            actionAccepted = True
 
     actionAccepted = False #reset
     while (actionAccepted == False):
         if(player2.isAlive == True):
-            print (player2.name + "! It is your turn!")
+            print ("\n" + player2.name + "! It is your turn!")
             userinput = UserInput()                     #@ userinput -> initial user input as a string
             splitInput = SplitInput(userinput)          #@ splitInput -> an array of strings, each string a word
             actionAccepted = CheckAction_p2(splitInput)
@@ -266,6 +265,9 @@ def playerTurnCommand():
             if (actionAccepted == False):
                 print("That was an incorrect command, try again")
                 playerTurnCommand()
+        else:
+            print(player2.name + " can't take their turn because they are dead!")
+            actionAccepted = True
 
 def chooseVictim():
     number = random.random()
@@ -277,7 +279,6 @@ def chooseVictim():
     elif (player1.healthPoints > 0):
         return player1
     else:
-        print("Both characters are dead")
         return "don't attack"
 
 def enemyTurn():
@@ -285,14 +286,14 @@ def enemyTurn():
         if enemy.isAlive == True:
             victim = chooseVictim()
             if (victim == "don't attack"):
-                print(enemy.name + "Stares at the lifeless bodies of " + player1.name + " and " + player2.name)
+                print(enemy.name + " stares at the lifeless bodies of " + player1.name + " and " + player2.name)
             else:
                 attack(enemy, victim)
         else:
             print(enemy.name + " lies dead and twitching on the floor")
 
 def attack(enemy, target): #enemy to character
-    print(enemy.name + " attacked " + target.name + " for " + str(enemy.equippedWeapon.damage) + " damage!")
+    print("\n" + enemy.name + " attacked " + target.name + " for " + str(enemy.equippedWeapon.damage) + " damage!")
     target.setHealthPoints(target.healthPoints - enemy.equippedWeapon.damage)
     if (target.isAlive == True):
         print(target.name + " has " + str(target.healthPoints) + " healthpoints remaining!")
