@@ -44,6 +44,7 @@ class Character:
         self.setHealthPoints(50)
         self.setExperience(1)
         self.setDefence(0)
+        self.setIsAlive(True)
         self.setInventory(InventoryClass.Inventory())
         self.setEquippedWeapon(equippedWeapon)
         self.setArmourSet(ArmourSetClass.ArmourSet("Basic Armour", 0, 10))
@@ -83,6 +84,18 @@ class Character:
             self.healthPoints = _healthPoints
         else:
             raise TypeError("Character health points expected an int. Received: " + str(type(_healthPoints)) + " Check the type")
+        
+        if _healthPoints <= 0:
+            self.setIsAlive(False)
+    
+    def setIsAlive(self, _isAlive):
+        if type(_isAlive) is bool:
+            self.isAlive = _isAlive
+        else:
+            raise TypeError("Character alive status expected an bool. Received: " + str(type(_isAlive)) + " Check the type")
+    
+        if _isAlive == False:
+            print(self.name + " has been killed by the monsters of darkness")
     
     # Summary:
     #   Sets the total amount of experience points. Should directly relate to level.

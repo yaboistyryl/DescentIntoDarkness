@@ -84,7 +84,7 @@ class Enemy:
     #   Generates a random name froma predefined list.
     def setRandomName(self):
         # Predefined list.
-        nameList = ["Skeleton", "Zombie", "Goblin", "Dark Knight", "Kobold", "half orc", "orc", "hobgoblin", "ogre"]
+        nameList = ["Skeleton", "Zombie", "Goblin", "Dark-Knight", "Kobold", "half-orc", "Orc", "Hobgoblin", "Ogre"]
         
         # Create random index number based on length of predefined list.
         randomEnemyNameIndex = random.randint(0, len(nameList)-1)

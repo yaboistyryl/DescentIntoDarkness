@@ -8,7 +8,7 @@ debug = True
 
 class Weapon:
     # Common, Uncommon, Rare, Ultra Rare, Legendary
-    rarityMultiplier = [5, 10, 15, 20, 25]
+    rarityMultiplier = [1, 2, 3, 4, 5] # Changed to prevent party wipes on the first battle
     
     # Summary:
     #   Constructor - Creates an instance of the class.
