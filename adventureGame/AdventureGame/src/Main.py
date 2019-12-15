@@ -1,10 +1,19 @@
+"""
+    Descent into Darkness Command-Line RPG Game
+    
+    Created by:
+        Reece Draper
+        Alex Downing
+        Ayman Choudhery
+"""
+
 import time
 import random
 from obj import Character as CharacterClass
 from obj import DungeonRoom as DungeonRoomClass
 from obj import TerminalCommands as TerminalCommandsClass
 
-acceptableAnswers = ["walk", "hit", "inventory", "open"]    #for the time being
+acceptableAnswers = ["walk", "hit", "inventory", "open"]
 
 # Summary:
 #   The Main function of the program. Should be the last thing called and only once.
@@ -23,11 +32,14 @@ def main():
         
         if player1.isAlive == False and player2.isAlive == False:
             playersAreAlive = False
-            print("Your party have succumbed to the darkness")
+            time.sleep(3)
+            terminalCommands.clearTerminal()
+            print("Your party have succumbed to the darkness...")
+            time.sleep(3)
+            print("\nHint: You can type 'skip' at the beginning of game - after the title screen to skip the intro")
         
         else:
-            clearTerminal()
-            print("=== A new turn is upon thee! ===")
+            print("\n\n=== A new turn is upon thee! ===")
             print("\nThe Heroes!")
             if (player1.isAlive == True):
                 print(player1.name + " has " + str(player1.healthPoints) + " healthpoints remaining!")
@@ -55,21 +67,6 @@ def main():
                 print("\nThis room has a chest")
     
     print("Thank you for playing the Descent into Darkness!")
-    
-# Summary:
-#   Clears the terminal screen by outputting 50 new lines.
-def clearTerminal():
-    # Clear the terminal screen.
-    for i in range(50):
-        print("\n")
-        
-# Summary:
-#   Prints the initial title screen at the start of the game.     
-def titleScreen():
-    print("\n|=========================================|")
-    print("|  Welcome to The Descent into Darkness!  |")
-    print("|      Enter any value to continue!       |")
-    print("|=========================================|")
 
 # Summary:
 #   Function to handle the input of the player names. Adds reusability, maintenance and data validation.
@@ -131,7 +128,7 @@ def CheckAction_p1(funcInput):
                     print("\nYou cannot move to the door because a " + enemy.name + " is in the way! You must kill it before moving on!")
                     aliveCount += 1
                     accepted = False
-                    # Get out of if statement                
+                    # Get out of if statement
                     
                 else:
                     dungeonRoom1.regenRandomDungeonRoom()
@@ -161,10 +158,31 @@ def CheckAction_p1(funcInput):
                 accepted = False
                 
         elif(commandID == "open"):
-            print("Selected Action: Open - Currently not implemented.")
+            if dungeonRoom1.hasChest == True:
+                aliveCount = 0
+                zeroEnemies = True
+                for enemy in dungeonRoom1.enemyList:
+                    zeroEnemies = False
+                    if enemy.isAlive == True:
+                        print("\nYou cannot open the chest because the " + enemy.name + " is in the way! You must kill it before moving on!")
+                        aliveCount += 1
+                        accepted = False
+                        # Get out of if statement
+                        
+                    else:
+                        player1.gold += dungeonRoom1.givePlayerGold()
+                        print("\n" + player1.name + " now has " + str(player1.gold) + " gold!")
+                        accepted = True
+                        
+                if zeroEnemies == True:
+                    player1.gold += dungeonRoom1.givePlayerGold()
+                    print("\n" + player1.name + " now has " + str(player1.gold) + " gold!")
+                    accepted = True
+            else:
+                print("\nThere is no chest in this room!")
             accepted == True
         elif (commandID == "inventory"):
-            print("Selected Action: Inventory - Currently not implemented.")
+            print("Select/ed Action: Inventory - Currently not implemented.")
             accepted == True
     return accepted
 
@@ -229,7 +247,26 @@ def CheckAction_p2(funcInput):
                 accepted = False
                 
         elif(commandID == "open"):
-            print("Selected Action: Open - Currently not implemented.")
+            aliveCount = 0
+            zeroEnemies = True
+            for enemy in dungeonRoom1.enemyList:
+                zeroEnemies = False
+                if enemy.isAlive == True:
+                    print("\nYou cannot open the chest because the " + enemy.name + " is in the way! You must kill it before moving on!")
+                    aliveCount += 1
+                    accepted = False
+                    # Get out of if statement
+                    
+                else:
+                    player2.gold += dungeonRoom1.givePlayerGold()
+                    print("\n" + player2.name + " now has " + str(player2.gold) + " gold!")
+                    accepted = True
+                    
+            if zeroEnemies == True:
+                player2.gold += dungeonRoom1.givePlayerGold()
+                print("\n" + player2.name + " now has " + str(player2.gold) + " gold!")
+                accepted = True
+                    
             accepted == True
         elif (commandID == "inventory"):
             print("Selected Action: Inventory - Currently not implemented.")
@@ -297,37 +334,37 @@ def attack(enemy, target): #enemy to character
     target.setHealthPoints(target.healthPoints - enemy.equippedWeapon.damage)
     if (target.isAlive == True):
         print(target.name + " has " + str(target.healthPoints) + " healthpoints remaining!")
-
-
-def tutorialText():
-    print("\nIn this game, you control your player by typing in a command.")
-    print("\nCommands are not case sensitive, however, any misspelling will require you to retype the command.")
-    print("\nThe core commands are:")
-    print("    'move' - This will move you to the next room, provided there are no enemies alive in your current room.")
-    print("    'open' - This will open the chest in your current room, if there is an unopened chest.")
-    print("    'inventory' - This will show you the items in your inventory (you can hold 10 items in your inventory at any time).")
-    print("    'hit [enemyName]' - This will allow you to deal damage to a certain enemy.")
-    print("\nGood luck traveller!")
     
+# Create the terminal commands controller.
+terminalCommands = TerminalCommandsClass.TerminalCommands()    
+
 # Show the title screen.
-titleScreen()
+terminalCommands.clearTerminal()
+terminalCommands.titleScreen()
 
 # Wait for user to input a key.
 userInput = input()
 
 # Clear the terminal screen.
-clearTerminal()
+terminalCommands.clearTerminal()
 
 # Get the player names from user.
 playerOneName = inputPlayerName(1)
 playerTwoName = inputPlayerName(2)
 
-tutorialText()
+terminalCommands.clearTerminal()
+
+if userInput.lower() != "skip":
+    terminalCommands.introduction()
+
+# Output the tutotial text to the terminal.
+terminalCommands.tutorialText()
 
 # Construct the Character objects with the players names.
 player1 = CharacterClass.Character(playerOneName)
 player2 = CharacterClass.Character(playerTwoName)
 
-clearTerminal()
+terminalCommands.clearTerminal()
 
+# Run the man game.
 main()

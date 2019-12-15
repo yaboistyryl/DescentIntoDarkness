@@ -10,7 +10,7 @@ from obj import Loot as LootClass
 # Allows us to create mock obj for testing. Mock is used to create loose coupling and lose dependancy on ItemClass
 import unittest.mock as mock
 
-mockedItem = mock.Mock(spec=ItemClass.item)
+mockedItem = mock.Mock(spec=ItemClass.Item)
 testGold = 500
 
 def test_Loot_Constructs_When_Given_Valid_Data():

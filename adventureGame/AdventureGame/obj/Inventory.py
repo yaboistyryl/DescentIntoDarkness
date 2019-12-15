@@ -12,6 +12,8 @@ debug = False
 # Class for inventories of characters.
 class Inventory:
     
+    items = []
+    
     # Summary:
     #   Constructor - Creates an instance of the class.
     # @Param:
@@ -50,4 +52,54 @@ class Inventory:
         elif len(_items) <= 0:
             if debug == True:
                 print("This inventory has been created without items!")
+             
+    # Summary:
+    #   Adds an item to the inventory.
+    def addItem(self, _item):
+        if isinstance(_item, ItemClass.Item) \
+        or isinstance(_item, WeaponClass.Weapon) \
+        or isinstance(_item, ArmourSetClass.ArmourSet):
+            if len(self.items) < 10:
+                self.items.append(_item)
+            else:
+                print("Can't add " + _item.name + " to the inventory as it's full!")
+        else:
+            raise TypeError("Inventory item expected an obj Item. Received: " + str(type(_item)) + " Check the type")
+            
+    def dropItem(self, _item):
+        raise Exception("Not implemented yet")
+        
+    # Summary:
+    #   Discards the selected item.
+    #   If the item inputted is of type obj Item, obj Weapon or obj ArmourSet search through the    
+    #       list of items in the inventory via it's item name and then delete it.
+    #   If the item is a string, search through via the name and then delete it.
+    def discardItem(self, _item):
+        if isinstance(_item, ItemClass.Item) \
+        or isinstance(_item, WeaponClass.Weapon) \
+        or isinstance(_item, ArmourSetClass.ArmourSet):
+            for _itemInList in self.items:
+                if _item.name == _itemInList.name:
+                    try:
+                        self.items.remove(_itemInList)
+                        del _itemInList
+                    except ValueError:
+                        print("Failed to remove item in the list!")
+                else:
+                    print("Could not find item!")                
+        elif type(_item) is str:
+            for _itemInList in self.items:
+                if _item == _itemInList.name:
+                    try:
+                        self.items.remove(_itemInList)
+                        del _itemInList
+                    except ValueError:
+                        print("Failed to remove item in the list!")
+                else:
+                    print("Could not find item!")
+        
+    # Summary:
+    #   Prints all the items in the inventory to the terminal.
+    def printItems(self):
+        print(str(self.items))
  

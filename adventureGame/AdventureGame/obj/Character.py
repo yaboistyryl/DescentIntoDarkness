@@ -42,7 +42,7 @@ class Character:
         self.setName(_name)
         self.setLevel(1)
         self.setHealthPoints(50)
-        self.setExperience(1)
+        self.setExperience(0)
         self.setDefence(0)
         self.setIsAlive(True)
         self.setInventory(InventoryClass.Inventory())
@@ -163,6 +163,9 @@ class Character:
             _target.setHealthPoints(_target.healthPoints - self.equippedWeapon.damage)
         else:
             raise Exception("Target is not an enemy!")
+    
+    def openInventory(self):
+        self.inventory.printItems()
     
     # Summary:
     #   Prints the the attributes of the character.
