@@ -64,7 +64,25 @@ class dungeonRoom:
             self.hasChest = _hasChest
         else:
             raise TypeError("DungeonRoom hasChest expected a bool. Received: " + str(type(_hasChest)) + " Check the type")
-    
+            
+        if self.hasChest == True:
+            self.chestGold = random.randint(1, 50)
+        else:
+            self.chestGold = 0
+     
+    # Summary:
+    #   Gives the player gold. Set the chest to 0 if it's looted. Regenerated when the room is regenerated. 
+    def givePlayerGold(self):
+        
+        if self.chestGold > 0:
+            chestGold = self.chestGold
+            self.chestGold = 0
+        else:
+            chestGold = 0
+            print("\nThere is no gold left!")
+            
+        return chestGold
+              
     # Summary:        
     #   Generates a random room rarity.
     # Rarity List:
